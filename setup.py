@@ -37,7 +37,7 @@ with codecs.open('README.rst', 'r', 'utf-8') as fd:
           packages=packages,
           install_requires=requirements(),
           extras_require={
-              'json': 'ujson',
+              'json': 'rapidjson',
               'socks': 'PySocks'
           },
           include_package_data=True,

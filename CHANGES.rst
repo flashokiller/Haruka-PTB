@@ -409,7 +409,7 @@ Changes
 - Drop Python 2.6 support
 - Deprecate ``telegram.Emoji``
 
-- Use ``ujson`` if available
+- Use ``rapidjson`` if available
 - Add instance methods to ``Message``, ``Chat``, ``User``, ``InlineQuery`` and ``CallbackQuery``
 - RegEx filtering for ``CallbackQueryHandler`` and ``InlineQueryHandler``
 - New ``MessageHandler`` filters: ``forwarded`` and ``entity``

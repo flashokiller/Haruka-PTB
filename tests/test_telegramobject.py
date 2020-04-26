@@ -22,17 +22,17 @@ import json as json_lib
 import pytest
 
 try:
-    import ujson
+    import rapidjson
 except ImportError:
-    ujson = None
+    rapidjson = None
 
 from telegram import TelegramObject
 
 
 class TestTelegramObject(object):
     def test_to_json_native(self, monkeypatch):
-        if ujson:
-            monkeypatch.setattr('ujson.dumps', json_lib.dumps)
+        if rapidjson:
+            monkeypatch.setattr('rapidjson.dumps', json_lib.dumps)
         # to_json simply takes whatever comes from to_dict, therefore we only need to test it once
         telegram_object = TelegramObject()
 
@@ -53,8 +53,8 @@ class TestTelegramObject(object):
         with pytest.raises(TypeError):
             telegram_object.to_json()
 
-    @pytest.mark.skipif(not ujson, reason='ujson not installed')
-    def test_to_json_ujson(self, monkeypatch):
+    @pytest.mark.skipif(not rapidjson, reason='rapidjson not installed')
+    def test_to_json_rapidjson(self, monkeypatch):
         # to_json simply takes whatever comes from to_dict, therefore we only need to test it once
         telegram_object = TelegramObject()
 
@@ -67,7 +67,7 @@ class TestTelegramObject(object):
         assert '"str2":["str","str"]' in json
         assert '"str3":{"str":"str"}' in json
 
-        # Test that ujson allows tuples
+        # Test that rapidjson allows tuples
         # NOTE: This could be seen as a bug (since it's differnt from the normal "json",
         # but we test it anyways
         d = {('str', 'str'): 'str'}

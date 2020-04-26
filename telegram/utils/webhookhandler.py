@@ -22,7 +22,7 @@ from telegram import Update
 from future.utils import bytes_to_native_str
 from threading import Lock
 try:
-    import ujson as json
+    import rapidjson as json
 except ImportError:
     import json
 try:

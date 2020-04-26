@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Lesser Public License
 # along with this program.  If not, see [http://www.gnu.org/licenses/].
 try:
-    import ujson as json
+    import rapidjson as json
 except ImportError:
     import json
 from base64 import b64decode

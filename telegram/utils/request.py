@@ -25,7 +25,7 @@ import warnings
 from builtins import str  # For PY2
 
 try:
-    import ujson as json
+    import rapidjson as json
 except ImportError:
     import json
 

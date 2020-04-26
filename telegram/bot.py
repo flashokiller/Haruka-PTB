@@ -22,7 +22,7 @@
 
 import functools
 try:
-    import ujson as json
+    import rapidjson as json
 except ImportError:
     import json
 import logging
