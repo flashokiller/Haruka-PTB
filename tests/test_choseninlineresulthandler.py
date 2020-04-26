@@ -25,21 +25,28 @@ from telegram.ext import ChosenInlineResultHandler
 
 message = Message(1, User(1, '', False), None, Chat(1, ''), text='Text')
 
-params = [
-    {'message': message},
-    {'edited_message': message},
-    {'callback_query': CallbackQuery(1, User(1, '', False), 'chat', message=message)},
-    {'channel_post': message},
-    {'edited_channel_post': message},
-    {'inline_query': InlineQuery(1, User(1, '', False), '', '')},
-    {'shipping_query': ShippingQuery('id', User(1, '', False), '', None)},
-    {'pre_checkout_query': PreCheckoutQuery('id', User(1, '', False), '', 0, '')},
-    {'callback_query': CallbackQuery(1, User(1, '', False), 'chat')}
-]
+params = [{
+    'message': message
+}, {
+    'edited_message': message
+}, {
+    'callback_query': CallbackQuery(1, User(1, '', False), 'chat', message=message)
+}, {
+    'channel_post': message
+}, {
+    'edited_channel_post': message
+}, {
+    'inline_query': InlineQuery(1, User(1, '', False), '', '')
+}, {
+    'shipping_query': ShippingQuery('id', User(1, '', False), '', None)
+}, {
+    'pre_checkout_query': PreCheckoutQuery('id', User(1, '', False), '', 0, '')
+}, {
+    'callback_query': CallbackQuery(1, User(1, '', False), 'chat')
+}]
 
-ids = ('message', 'edited_message', 'callback_query', 'channel_post',
-       'edited_channel_post', 'inline_query',
-       'shipping_query', 'pre_checkout_query', 'callback_query_without_message')
+ids = ('message', 'edited_message', 'callback_query', 'channel_post', 'edited_channel_post',
+       'inline_query', 'shipping_query', 'pre_checkout_query', 'callback_query_without_message')
 
 
 @pytest.fixture(scope='class', params=params, ids=ids)
@@ -49,9 +56,9 @@ def false_update(request):
 
 @pytest.fixture(scope='class')
 def chosen_inline_result():
-    return Update(1, chosen_inline_result=ChosenInlineResult('result_id',
-                                                             User(1, 'test_user', False),
-                                                             'query'))
+    return Update(1,
+                  chosen_inline_result=ChosenInlineResult('result_id', User(1, 'test_user', False),
+                                                          'query'))
 
 
 class TestChosenInlineResultHandler(object):
@@ -102,7 +109,8 @@ class TestChosenInlineResultHandler(object):
         assert self.test_flag
 
         dp.remove_handler(handler)
-        handler = ChosenInlineResultHandler(self.callback_data_2, pass_chat_data=True,
+        handler = ChosenInlineResultHandler(self.callback_data_2,
+                                            pass_chat_data=True,
                                             pass_user_data=True)
         dp.add_handler(handler)
 
@@ -126,7 +134,8 @@ class TestChosenInlineResultHandler(object):
         assert self.test_flag
 
         dp.remove_handler(handler)
-        handler = ChosenInlineResultHandler(self.callback_queue_2, pass_job_queue=True,
+        handler = ChosenInlineResultHandler(self.callback_queue_2,
+                                            pass_job_queue=True,
                                             pass_update_queue=True)
         dp.add_handler(handler)
 

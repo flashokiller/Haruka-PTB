@@ -215,11 +215,10 @@ class ConversationHandler(Handler):
 
         """
         # Ignore messages in channels
-        if (not isinstance(update, Update) or
-                update.channel_post or
-                self.per_chat and not update.effective_chat or
-                self.per_message and not update.callback_query or
-                update.callback_query and self.per_chat and not update.callback_query.message):
+        if (not isinstance(update, Update) or update.channel_post
+                or self.per_chat and not update.effective_chat
+                or self.per_message and not update.callback_query
+                or update.callback_query and self.per_chat and not update.callback_query.message):
             return False
 
         key = self._get_key(update)
@@ -309,9 +308,9 @@ class ConversationHandler(Handler):
             timeout_job.schedule_removal()
         if self.conversation_timeout and new_state != self.END:
             self.timeout_jobs[self.current_conversation] = dispatcher.job_queue.run_once(
-                self._trigger_timeout, self.conversation_timeout,
-                context=self.current_conversation
-            )
+                self._trigger_timeout,
+                self.conversation_timeout,
+                context=self.current_conversation)
 
         self.update_state(new_state, self.current_conversation)
 

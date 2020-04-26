@@ -106,12 +106,11 @@ class MessageHandler(Handler):
             warnings.warn('allow_edited is getting deprecated, please use edited_updates instead')
             edited_updates = allow_edited
 
-        super(MessageHandler, self).__init__(
-            callback,
-            pass_update_queue=pass_update_queue,
-            pass_job_queue=pass_job_queue,
-            pass_user_data=pass_user_data,
-            pass_chat_data=pass_chat_data)
+        super(MessageHandler, self).__init__(callback,
+                                             pass_update_queue=pass_update_queue,
+                                             pass_job_queue=pass_job_queue,
+                                             pass_user_data=pass_user_data,
+                                             pass_chat_data=pass_chat_data)
         self.filters = filters
         self.message_updates = message_updates
         self.channel_post_updates = channel_post_updates
@@ -125,9 +124,11 @@ class MessageHandler(Handler):
                           'instead. More info: https://git.io/vPTbc.')
 
     def _is_allowed_update(self, update):
-        return any([self.message_updates and update.message,
-                    self.edited_updates and (update.edited_message or update.edited_channel_post),
-                    self.channel_post_updates and update.channel_post])
+        return any([
+            self.message_updates and update.message, self.edited_updates
+            and (update.edited_message or update.edited_channel_post), self.channel_post_updates
+            and update.channel_post
+        ])
 
     def check_update(self, update):
         """Determines whether an update should be passed to this handlers :attr:`callback`.

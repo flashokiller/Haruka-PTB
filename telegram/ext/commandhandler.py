@@ -97,12 +97,11 @@ class CommandHandler(Handler):
                  pass_job_queue=False,
                  pass_user_data=False,
                  pass_chat_data=False):
-        super(CommandHandler, self).__init__(
-            callback,
-            pass_update_queue=pass_update_queue,
-            pass_job_queue=pass_job_queue,
-            pass_user_data=pass_user_data,
-            pass_chat_data=pass_chat_data)
+        super(CommandHandler, self).__init__(callback,
+                                             pass_update_queue=pass_update_queue,
+                                             pass_job_queue=pass_job_queue,
+                                             pass_user_data=pass_user_data,
+                                             pass_chat_data=pass_chat_data)
 
         if isinstance(command, string_types):
             self.command = [command.lower()]

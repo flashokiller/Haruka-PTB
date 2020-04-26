@@ -19,8 +19,8 @@
 
 import pytest
 
-from telegram import (InlineKeyboardButton, InlineQueryResultGame,
-                      InlineQueryResultVoice, InlineKeyboardMarkup)
+from telegram import (InlineKeyboardButton, InlineQueryResultGame, InlineQueryResultVoice,
+                      InlineKeyboardMarkup)
 
 
 @pytest.fixture(scope='class')
@@ -40,8 +40,7 @@ class TestInlineQueryResultGame(object):
         assert inline_query_result_game.type == self.type
         assert inline_query_result_game.id == self.id
         assert inline_query_result_game.game_short_name == self.game_short_name
-        assert (inline_query_result_game.reply_markup.to_dict() ==
-                self.reply_markup.to_dict())
+        assert (inline_query_result_game.reply_markup.to_dict() == self.reply_markup.to_dict())
 
     def test_to_dict(self, inline_query_result_game):
         inline_query_result_game_dict = inline_query_result_game.to_dict()

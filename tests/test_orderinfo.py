@@ -24,8 +24,8 @@ from telegram import ShippingAddress, OrderInfo
 
 @pytest.fixture(scope='class')
 def order_info():
-    return OrderInfo(TestOrderInfo.name, TestOrderInfo.phone_number,
-                     TestOrderInfo.email, TestOrderInfo.shipping_address)
+    return OrderInfo(TestOrderInfo.name, TestOrderInfo.phone_number, TestOrderInfo.email,
+                     TestOrderInfo.shipping_address)
 
 
 class TestOrderInfo(object):

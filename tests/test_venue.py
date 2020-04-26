@@ -55,10 +55,10 @@ class TestVenue(object):
         assert venue.foursquare_type == self.foursquare_type
 
     def test_send_with_venue(self, monkeypatch, bot, chat_id, venue):
+
         def test(_, url, data, **kwargs):
             return (data['longitude'] == self.location.longitude
-                    and data['latitude'] == self.location.latitude
-                    and data['title'] == self.title
+                    and data['latitude'] == self.location.latitude and data['title'] == self.title
                     and data['address'] == self.address
                     and data['foursquare_id'] == self.foursquare_id
                     and data['foursquare_type'] == self.foursquare_type)

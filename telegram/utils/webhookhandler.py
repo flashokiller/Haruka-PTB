@@ -71,7 +71,8 @@ class WebhookServer(BaseHTTPServer.HTTPServer, object):
     def handle_error(self, request, client_address):
         """Handle an error gracefully."""
         self.logger.debug('Exception happened during processing of request from %s',
-                          client_address, exc_info=True)
+                          client_address,
+                          exc_info=True)
 
 
 # WebhookHandler, process webhook calls
@@ -115,8 +116,8 @@ class WebhookHandler(BaseHTTPServer.BaseHTTPRequestHandler, object):
             self.server.update_queue.put(update)
 
     def _validate_post(self):
-        if not (self.path == self.server.webhook_path and 'content-type' in self.headers and
-                self.headers['content-type'] == 'application/json'):
+        if not (self.path == self.server.webhook_path and 'content-type' in self.headers
+                and self.headers['content-type'] == 'application/json'):
             raise _InvalidPost(403)
 
     def _get_content_len(self):

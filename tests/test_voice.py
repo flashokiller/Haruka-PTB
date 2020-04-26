@@ -59,8 +59,11 @@ class TestVoice(object):
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_send_all_args(self, bot, chat_id, voice_file, voice):
-        message = bot.send_voice(chat_id, voice_file, duration=self.duration,
-                                 caption=self.caption, disable_notification=False,
+        message = bot.send_voice(chat_id,
+                                 voice_file,
+                                 duration=self.duration,
+                                 caption=self.caption,
+                                 disable_notification=False,
                                  parse_mode='Markdown')
 
         assert isinstance(message.voice, Voice)
@@ -104,6 +107,7 @@ class TestVoice(object):
         assert message.voice == voice
 
     def test_send_with_voice(self, monkeypatch, bot, chat_id, voice):
+
         def test(_, url, data, **kwargs):
             return data['voice'] == voice.file_id
 
@@ -152,6 +156,7 @@ class TestVoice(object):
             bot.sendVoice(chat_id)
 
     def test_get_file_instance_method(self, monkeypatch, voice):
+
         def test(*args, **kwargs):
             return args[1] == voice.file_id
 

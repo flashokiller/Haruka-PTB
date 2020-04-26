@@ -84,8 +84,10 @@ class PassportFile(TelegramObject):
         if not data:
             return []
 
-        return [cls.de_json_decrypted(passport_file, bot, credentials[i])
-                for i, passport_file in enumerate(data)]
+        return [
+            cls.de_json_decrypted(passport_file, bot, credentials[i])
+            for i, passport_file in enumerate(data)
+        ]
 
     def get_file(self, timeout=None, **kwargs):
         """

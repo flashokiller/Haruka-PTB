@@ -18,8 +18,8 @@
 # along with this program.  If not, see [http://www.gnu.org/licenses/].
 """This module contains an object that represents a Telegram Update."""
 
-from telegram import (Message, TelegramObject, InlineQuery, ChosenInlineResult,
-                      CallbackQuery, ShippingQuery, PreCheckoutQuery)
+from telegram import (Message, TelegramObject, InlineQuery, ChosenInlineResult, CallbackQuery,
+                      ShippingQuery, PreCheckoutQuery)
 
 
 class Update(TelegramObject):
@@ -208,8 +208,8 @@ class Update(TelegramObject):
         data['message'] = Message.de_json(data.get('message'), bot)
         data['edited_message'] = Message.de_json(data.get('edited_message'), bot)
         data['inline_query'] = InlineQuery.de_json(data.get('inline_query'), bot)
-        data['chosen_inline_result'] = ChosenInlineResult.de_json(
-            data.get('chosen_inline_result'), bot)
+        data['chosen_inline_result'] = ChosenInlineResult.de_json(data.get('chosen_inline_result'),
+                                                                  bot)
         data['callback_query'] = CallbackQuery.de_json(data.get('callback_query'), bot)
         data['shipping_query'] = ShippingQuery.de_json(data.get('shipping_query'), bot)
         data['pre_checkout_query'] = PreCheckoutQuery.de_json(data.get('pre_checkout_query'), bot)

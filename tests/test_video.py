@@ -68,10 +68,16 @@ class TestVideo(object):
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_send_all_args(self, bot, chat_id, video_file, video, thumb_file):
-        message = bot.send_video(chat_id, video_file, duration=self.duration,
-                                 caption=self.caption, supports_streaming=self.supports_streaming,
-                                 disable_notification=False, width=video.width,
-                                 height=video.height, parse_mode='Markdown', thumb=thumb_file)
+        message = bot.send_video(chat_id,
+                                 video_file,
+                                 duration=self.duration,
+                                 caption=self.caption,
+                                 supports_streaming=self.supports_streaming,
+                                 disable_notification=False,
+                                 width=video.width,
+                                 height=video.height,
+                                 parse_mode='Markdown',
+                                 thumb=thumb_file)
 
         assert isinstance(message.video, Video)
         assert isinstance(message.video.file_id, str)
@@ -129,6 +135,7 @@ class TestVideo(object):
         assert message.video == video
 
     def test_send_with_video(self, monkeypatch, bot, chat_id, video):
+
         def test(_, url, data, **kwargs):
             return data['video'] == video.file_id
 
@@ -182,6 +189,7 @@ class TestVideo(object):
             bot.send_video(chat_id=chat_id)
 
     def test_get_file_instance_method(self, monkeypatch, video):
+
         def test(*args, **kwargs):
             return args[1] == video.file_id
 

@@ -21,88 +21,129 @@ from datetime import datetime
 import pytest
 
 from telegram import ParseMode
-from telegram import (Update, Message, User, MessageEntity, Chat, Audio, Document, Animation,
-                      Game, PhotoSize, Sticker, Video, Voice, VideoNote, Contact, Location, Venue,
+from telegram import (Update, Message, User, MessageEntity, Chat, Audio, Document, Animation, Game,
+                      PhotoSize, Sticker, Video, Voice, VideoNote, Contact, Location, Venue,
                       Invoice, SuccessfulPayment, PassportData)
 from tests.test_passport import RAW_PASSPORT_DATA
 
 
 @pytest.fixture(scope='class')
 def message(bot):
-    return Message(TestMessage.id, TestMessage.from_user, TestMessage.date, TestMessage.chat,
+    return Message(TestMessage.id,
+                   TestMessage.from_user,
+                   TestMessage.date,
+                   TestMessage.chat,
                    bot=bot)
 
 
-@pytest.fixture(scope='function',
-                params=[
-                    {'forward_from': User(99, 'forward_user', False),
-                     'forward_date': datetime.now()},
-                    {'forward_from_chat': Chat(-23, 'channel'),
-                     'forward_from_message_id': 101,
-                     'forward_date': datetime.now()},
-                    {'reply_to_message': Message(50, None, None, None)},
-                    {'edit_date': datetime.now()},
-                    {'text': 'a text message',
-                     'enitites': [MessageEntity('bold', 10, 4),
-                                  MessageEntity('italic', 16, 7)]},
-                    {'caption': 'A message caption',
-                     'caption_entities': [MessageEntity('bold', 1, 1),
-                                          MessageEntity('text_link', 4, 3)]},
-                    {'audio': Audio('audio_id', 12),
-                     'caption': 'audio_file'},
-                    {'document': Document('document_id'),
-                     'caption': 'document_file'},
-                    {'animation': Animation('animation_id', 30, 30, 1),
-                     'caption': 'animation_file'},
-                    {'game': Game('my_game', 'just my game',
-                                  [PhotoSize('game_photo_id', 30, 30), ])},
-                    {'photo': [PhotoSize('photo_id', 50, 50)],
-                     'caption': 'photo_file'},
-                    {'sticker': Sticker('sticker_id', 50, 50)},
-                    {'video': Video('video_id', 12, 12, 12),
-                     'caption': 'video_file'},
-                    {'voice': Voice('voice_id', 5)},
-                    {'video_note': VideoNote('video_note_id', 20, 12)},
-                    {'new_chat_members': [User(55, 'new_user', False)]},
-                    {'contact': Contact('phone_numner', 'contact_name')},
-                    {'location': Location(-23.691288, 46.788279)},
-                    {'venue': Venue(Location(-23.691288, 46.788279),
-                                    'some place', 'right here')},
-                    {'left_chat_member': User(33, 'kicked', False)},
-                    {'new_chat_title': 'new title'},
-                    {'new_chat_photo': [PhotoSize('photo_id', 50, 50)]},
-                    {'delete_chat_photo': True},
-                    {'group_chat_created': True},
-                    {'supergroup_chat_created': True},
-                    {'channel_chat_created': True},
-                    {'migrate_to_chat_id': -12345},
-                    {'migrate_from_chat_id': -54321},
-                    {'pinned_message': Message(7, None, None, None)},
-                    {'invoice': Invoice('my invoice', 'invoice', 'start', 'EUR', 243)},
-                    {'successful_payment': SuccessfulPayment('EUR', 243, 'payload',
-                                                             'charge_id', 'provider_id',
-                                                             order_info={})},
-                    {'connected_website': 'http://example.com/'},
-                    {'forward_signature': 'some_forward_sign'},
-                    {'author_signature': 'some_author_sign'},
-                    {'photo': [PhotoSize('photo_id', 50, 50)],
-                     'caption': 'photo_file',
-                     'media_group_id': 1234443322222},
-                    {'passport_data': PassportData.de_json(RAW_PASSPORT_DATA, None)}
-                ],
-                ids=['forwarded_user', 'forwarded_channel', 'reply', 'edited', 'text',
-                     'caption_entities', 'audio', 'document', 'animation', 'game', 'photo',
-                     'sticker', 'video', 'voice', 'video_note', 'new_members', 'contact',
-                     'location', 'venue', 'left_member', 'new_title', 'new_photo', 'delete_photo',
-                     'group_created', 'supergroup_created', 'channel_created', 'migrated_to',
-                     'migrated_from', 'pinned', 'invoice', 'successful_payment',
-                     'connected_website', 'forward_signature', 'author_signature',
-                     'photo_from_media_group', 'passport_data'])
+@pytest.fixture(
+    scope='function',
+    params=[{
+        'forward_from': User(99, 'forward_user', False),
+        'forward_date': datetime.now()
+    }, {
+        'forward_from_chat': Chat(-23, 'channel'),
+        'forward_from_message_id': 101,
+        'forward_date': datetime.now()
+    }, {
+        'reply_to_message': Message(50, None, None, None)
+    }, {
+        'edit_date': datetime.now()
+    }, {
+        'text': 'a text message',
+        'enitites': [MessageEntity('bold', 10, 4),
+                     MessageEntity('italic', 16, 7)]
+    }, {
+        'caption': 'A message caption',
+        'caption_entities': [MessageEntity('bold', 1, 1),
+                             MessageEntity('text_link', 4, 3)]
+    }, {
+        'audio': Audio('audio_id', 12),
+        'caption': 'audio_file'
+    }, {
+        'document': Document('document_id'),
+        'caption': 'document_file'
+    }, {
+        'animation': Animation('animation_id', 30, 30, 1),
+        'caption': 'animation_file'
+    }, {
+        'game': Game('my_game', 'just my game', [
+            PhotoSize('game_photo_id', 30, 30),
+        ])
+    }, {
+        'photo': [PhotoSize('photo_id', 50, 50)],
+        'caption': 'photo_file'
+    }, {
+        'sticker': Sticker('sticker_id', 50, 50)
+    }, {
+        'video': Video('video_id', 12, 12, 12),
+        'caption': 'video_file'
+    }, {
+        'voice': Voice('voice_id', 5)
+    }, {
+        'video_note': VideoNote('video_note_id', 20, 12)
+    }, {
+        'new_chat_members': [User(55, 'new_user', False)]
+    }, {
+        'contact': Contact('phone_numner', 'contact_name')
+    }, {
+        'location': Location(-23.691288, 46.788279)
+    }, {
+        'venue': Venue(Location(-23.691288, 46.788279), 'some place', 'right here')
+    }, {
+        'left_chat_member': User(33, 'kicked', False)
+    }, {
+        'new_chat_title': 'new title'
+    }, {
+        'new_chat_photo': [PhotoSize('photo_id', 50, 50)]
+    }, {
+        'delete_chat_photo': True
+    }, {
+        'group_chat_created': True
+    }, {
+        'supergroup_chat_created': True
+    }, {
+        'channel_chat_created': True
+    }, {
+        'migrate_to_chat_id': -12345
+    }, {
+        'migrate_from_chat_id': -54321
+    }, {
+        'pinned_message': Message(7, None, None, None)
+    }, {
+        'invoice': Invoice('my invoice', 'invoice', 'start', 'EUR', 243)
+    }, {
+        'successful_payment':
+            SuccessfulPayment('EUR', 243, 'payload', 'charge_id', 'provider_id', order_info={})
+    }, {
+        'connected_website': 'http://example.com/'
+    }, {
+        'forward_signature': 'some_forward_sign'
+    }, {
+        'author_signature': 'some_author_sign'
+    }, {
+        'photo': [PhotoSize('photo_id', 50, 50)],
+        'caption': 'photo_file',
+        'media_group_id': 1234443322222
+    }, {
+        'passport_data': PassportData.de_json(RAW_PASSPORT_DATA, None)
+    }],
+    ids=[
+        'forwarded_user', 'forwarded_channel', 'reply', 'edited', 'text', 'caption_entities',
+        'audio', 'document', 'animation', 'game', 'photo', 'sticker', 'video', 'voice',
+        'video_note', 'new_members', 'contact', 'location', 'venue', 'left_member', 'new_title',
+        'new_photo', 'delete_photo', 'group_created', 'supergroup_created', 'channel_created',
+        'migrated_to', 'migrated_from', 'pinned', 'invoice', 'successful_payment',
+        'connected_website', 'forward_signature', 'author_signature', 'photo_from_media_group',
+        'passport_data'
+    ])
 def message_params(bot, request):
     return Message(message_id=TestMessage.id,
                    from_user=TestMessage.from_user,
                    date=TestMessage.date,
-                   chat=TestMessage.chat, bot=bot, **request.param)
+                   chat=TestMessage.chat,
+                   bot=bot,
+                   **request.param)
 
 
 class TestMessage(object):
@@ -110,12 +151,32 @@ class TestMessage(object):
     from_user = User(2, 'testuser', False)
     date = datetime.now()
     chat = Chat(3, 'private')
-    test_entities = [{'length': 4, 'offset': 10, 'type': 'bold'},
-                     {'length': 7, 'offset': 16, 'type': 'italic'},
-                     {'length': 4, 'offset': 25, 'type': 'code'},
-                     {'length': 5, 'offset': 31, 'type': 'text_link', 'url': 'http://github.com/'},
-                     {'length': 3, 'offset': 41, 'type': 'pre'},
-                     {'length': 17, 'offset': 46, 'type': 'url'}]
+    test_entities = [{
+        'length': 4,
+        'offset': 10,
+        'type': 'bold'
+    }, {
+        'length': 7,
+        'offset': 16,
+        'type': 'italic'
+    }, {
+        'length': 4,
+        'offset': 25,
+        'type': 'code'
+    }, {
+        'length': 5,
+        'offset': 31,
+        'type': 'text_link',
+        'url': 'http://github.com/'
+    }, {
+        'length': 3,
+        'offset': 41,
+        'type': 'pre'
+    }, {
+        'length': 17,
+        'offset': 46,
+        'type': 'url'
+    }]
     test_text = 'Test for <bold, ita_lic, code, links and pre. http://google.com'
     test_message = Message(message_id=1,
                            from_user=None,
@@ -147,7 +208,11 @@ class TestMessage(object):
         caption = (b'\\U0001f469\\u200d\\U0001f469\\u200d\\U0001f467'
                    b'\\u200d\\U0001f467\\U0001f431http://google.com').decode('unicode-escape')
         entity = MessageEntity(type=MessageEntity.URL, offset=13, length=17)
-        message = Message(1, self.from_user, self.date, self.chat, caption=caption,
+        message = Message(1,
+                          self.from_user,
+                          self.date,
+                          self.chat,
+                          caption=caption,
                           caption_entities=[entity])
         assert message.parse_caption_entity(entity) == 'http://google.com'
 
@@ -156,8 +221,12 @@ class TestMessage(object):
                 b'\\u200d\\U0001f467\\U0001f431http://google.com').decode('unicode-escape')
         entity = MessageEntity(type=MessageEntity.URL, offset=13, length=17)
         entity_2 = MessageEntity(type=MessageEntity.BOLD, offset=13, length=1)
-        message = Message(1, self.from_user, self.date, self.chat,
-                          text=text, entities=[entity_2, entity])
+        message = Message(1,
+                          self.from_user,
+                          self.date,
+                          self.chat,
+                          text=text,
+                          entities=[entity_2, entity])
         assert message.parse_entities(MessageEntity.URL) == {entity: 'http://google.com'}
         assert message.parse_entities() == {entity: 'http://google.com', entity_2: 'h'}
 
@@ -166,8 +235,12 @@ class TestMessage(object):
                 b'\\u200d\\U0001f467\\U0001f431http://google.com').decode('unicode-escape')
         entity = MessageEntity(type=MessageEntity.URL, offset=13, length=17)
         entity_2 = MessageEntity(type=MessageEntity.BOLD, offset=13, length=1)
-        message = Message(1, self.from_user, self.date, self.chat,
-                          caption=text, caption_entities=[entity_2, entity])
+        message = Message(1,
+                          self.from_user,
+                          self.date,
+                          self.chat,
+                          caption=text,
+                          caption_entities=[entity_2, entity])
         assert message.parse_caption_entities(MessageEntity.URL) == {entity: 'http://google.com'}
         assert message.parse_caption_entities() == {entity: 'http://google.com', entity_2: 'h'}
 
@@ -211,16 +284,24 @@ class TestMessage(object):
         text = b'\\U0001f469\\u200d\\U0001f469\\u200d ABC'.decode('unicode-escape')
         expected = b'\\U0001f469\\u200d\\U0001f469\\u200d <b>ABC</b>'.decode('unicode-escape')
         bold_entity = MessageEntity(type=MessageEntity.BOLD, offset=7, length=3)
-        message = Message(1, self.from_user, self.date, self.chat,
-                          text=text, entities=[bold_entity])
+        message = Message(1,
+                          self.from_user,
+                          self.date,
+                          self.chat,
+                          text=text,
+                          entities=[bold_entity])
         assert expected == message.text_html
 
     def test_text_markdown_emoji(self):
         text = b'\\U0001f469\\u200d\\U0001f469\\u200d ABC'.decode('unicode-escape')
         expected = b'\\U0001f469\\u200d\\U0001f469\\u200d *ABC*'.decode('unicode-escape')
         bold_entity = MessageEntity(type=MessageEntity.BOLD, offset=7, length=3)
-        message = Message(1, self.from_user, self.date, self.chat,
-                          text=text, entities=[bold_entity])
+        message = Message(1,
+                          self.from_user,
+                          self.date,
+                          self.chat,
+                          text=text,
+                          entities=[bold_entity])
         assert expected == message.text_markdown
 
     def test_caption_html_simple(self):
@@ -263,24 +344,36 @@ class TestMessage(object):
         caption = b'\\U0001f469\\u200d\\U0001f469\\u200d ABC'.decode('unicode-escape')
         expected = b'\\U0001f469\\u200d\\U0001f469\\u200d <b>ABC</b>'.decode('unicode-escape')
         bold_entity = MessageEntity(type=MessageEntity.BOLD, offset=7, length=3)
-        message = Message(1, self.from_user, self.date, self.chat,
-                          caption=caption, caption_entities=[bold_entity])
+        message = Message(1,
+                          self.from_user,
+                          self.date,
+                          self.chat,
+                          caption=caption,
+                          caption_entities=[bold_entity])
         assert expected == message.caption_html
 
     def test_caption_markdown_emoji(self):
         caption = b'\\U0001f469\\u200d\\U0001f469\\u200d ABC'.decode('unicode-escape')
         expected = b'\\U0001f469\\u200d\\U0001f469\\u200d *ABC*'.decode('unicode-escape')
         bold_entity = MessageEntity(type=MessageEntity.BOLD, offset=7, length=3)
-        message = Message(1, self.from_user, self.date, self.chat,
-                          caption=caption, caption_entities=[bold_entity])
+        message = Message(1,
+                          self.from_user,
+                          self.date,
+                          self.chat,
+                          caption=caption,
+                          caption_entities=[bold_entity])
         assert expected == message.caption_markdown
 
     def test_parse_entities_url_emoji(self):
         url = b'http://github.com/?unicode=\\u2713\\U0001f469'.decode('unicode-escape')
         text = 'some url'
         link_entity = MessageEntity(type=MessageEntity.URL, offset=0, length=8, url=url)
-        message = Message(1, self.from_user, self.date, self.chat,
-                          text=text, entities=[link_entity])
+        message = Message(1,
+                          self.from_user,
+                          self.date,
+                          self.chat,
+                          text=text,
+                          entities=[link_entity])
         assert message.parse_entities() == {link_entity: text}
         assert next(iter(message.parse_entities())).url == url
 
@@ -311,6 +404,7 @@ class TestMessage(object):
         assert message_params.effective_attachment == item
 
     def test_reply_text(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             id = args[1] == message.chat_id
             text = args[2] == 'test'
@@ -375,6 +469,7 @@ class TestMessage(object):
                                   quote=True)
 
     def test_reply_media_group(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             id = args[1] == message.chat_id
             media = kwargs['media'] == 'reply_media_group'
@@ -389,6 +484,7 @@ class TestMessage(object):
         assert message.reply_media_group(media='reply_media_group', quote=True)
 
     def test_reply_photo(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             id = args[1] == message.chat_id
             photo = kwargs['photo'] == 'test_photo'
@@ -403,6 +499,7 @@ class TestMessage(object):
         assert message.reply_photo(photo='test_photo', quote=True)
 
     def test_reply_audio(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             id = args[1] == message.chat_id
             audio = kwargs['audio'] == 'test_audio'
@@ -417,6 +514,7 @@ class TestMessage(object):
         assert message.reply_audio(audio='test_audio', quote=True)
 
     def test_reply_document(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             id = args[1] == message.chat_id
             document = kwargs['document'] == 'test_document'
@@ -431,6 +529,7 @@ class TestMessage(object):
         assert message.reply_document(document='test_document', quote=True)
 
     def test_reply_animation(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             id = args[1] == message.chat_id
             animation = kwargs['animation'] == 'test_animation'
@@ -445,6 +544,7 @@ class TestMessage(object):
         assert message.reply_animation(animation='test_animation', quote=True)
 
     def test_reply_sticker(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             id = args[1] == message.chat_id
             sticker = kwargs['sticker'] == 'test_sticker'
@@ -459,6 +559,7 @@ class TestMessage(object):
         assert message.reply_sticker(sticker='test_sticker', quote=True)
 
     def test_reply_video(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             id = args[1] == message.chat_id
             video = kwargs['video'] == 'test_video'
@@ -473,6 +574,7 @@ class TestMessage(object):
         assert message.reply_video(video='test_video', quote=True)
 
     def test_reply_video_note(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             id = args[1] == message.chat_id
             video_note = kwargs['video_note'] == 'test_video_note'
@@ -487,6 +589,7 @@ class TestMessage(object):
         assert message.reply_video_note(video_note='test_video_note', quote=True)
 
     def test_reply_voice(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             id = args[1] == message.chat_id
             voice = kwargs['voice'] == 'test_voice'
@@ -501,6 +604,7 @@ class TestMessage(object):
         assert message.reply_voice(voice='test_voice', quote=True)
 
     def test_reply_location(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             id = args[1] == message.chat_id
             location = kwargs['location'] == 'test_location'
@@ -515,6 +619,7 @@ class TestMessage(object):
         assert message.reply_location(location='test_location', quote=True)
 
     def test_reply_venue(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             id = args[1] == message.chat_id
             venue = kwargs['venue'] == 'test_venue'
@@ -529,6 +634,7 @@ class TestMessage(object):
         assert message.reply_venue(venue='test_venue', quote=True)
 
     def test_reply_contact(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             id = args[1] == message.chat_id
             contact = kwargs['contact'] == 'test_contact'
@@ -543,6 +649,7 @@ class TestMessage(object):
         assert message.reply_contact(contact='test_contact', quote=True)
 
     def test_forward(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             chat_id = kwargs['chat_id'] == 123456
             from_chat = kwargs['from_chat_id'] == message.chat_id
@@ -559,6 +666,7 @@ class TestMessage(object):
         assert not message.forward(635241)
 
     def test_edit_text(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             chat_id = kwargs['chat_id'] == message.chat_id
             message_id = kwargs['message_id'] == message.message_id
@@ -569,6 +677,7 @@ class TestMessage(object):
         assert message.edit_text(text='test')
 
     def test_edit_caption(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             chat_id = kwargs['chat_id'] == message.chat_id
             message_id = kwargs['message_id'] == message.message_id
@@ -579,6 +688,7 @@ class TestMessage(object):
         assert message.edit_caption(caption='new caption')
 
     def test_edit_media(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             chat_id = kwargs['chat_id'] == message.chat_id
             message_id = kwargs['message_id'] == message.message_id
@@ -589,6 +699,7 @@ class TestMessage(object):
         assert message.edit_media('my_media')
 
     def test_edit_reply_markup(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             chat_id = kwargs['chat_id'] == message.chat_id
             message_id = kwargs['message_id'] == message.message_id
@@ -599,6 +710,7 @@ class TestMessage(object):
         assert message.edit_reply_markup(reply_markup=[['1', '2']])
 
     def test_delete(self, monkeypatch, message):
+
         def test(*args, **kwargs):
             chat_id = kwargs['chat_id'] == message.chat_id
             message_id = kwargs['message_id'] == message.message_id

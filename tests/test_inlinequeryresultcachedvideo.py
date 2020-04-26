@@ -57,15 +57,15 @@ class TestInlineQueryResultCachedVideo(object):
         assert inline_query_result_cached_video.parse_mode == self.parse_mode
         assert (inline_query_result_cached_video.input_message_content.to_dict() ==
                 self.input_message_content.to_dict())
-        assert (inline_query_result_cached_video.reply_markup.to_dict() ==
-                self.reply_markup.to_dict())
+        assert (
+            inline_query_result_cached_video.reply_markup.to_dict() == self.reply_markup.to_dict())
 
     def test_to_dict(self, inline_query_result_cached_video):
         inline_query_result_cached_video_dict = inline_query_result_cached_video.to_dict()
 
         assert isinstance(inline_query_result_cached_video_dict, dict)
-        assert (inline_query_result_cached_video_dict['type'] ==
-                inline_query_result_cached_video.type)
+        assert (
+            inline_query_result_cached_video_dict['type'] == inline_query_result_cached_video.type)
         assert inline_query_result_cached_video_dict['id'] == inline_query_result_cached_video.id
         assert (inline_query_result_cached_video_dict['video_file_id'] ==
                 inline_query_result_cached_video.video_file_id)

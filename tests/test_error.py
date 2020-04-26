@@ -24,6 +24,7 @@ from telegram.error import Unauthorized, InvalidToken, NetworkError, BadRequest,
 
 
 class TestErrors(object):
+
     def test_telegram_error(self):
         with pytest.raises(TelegramError, match="^test message$"):
             raise TelegramError("test message")

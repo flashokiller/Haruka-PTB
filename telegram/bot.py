@@ -45,6 +45,7 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 def info(func):
+
     @functools.wraps(func)
     def decorator(self, *args, **kwargs):
         if not self.bot:
@@ -71,6 +72,7 @@ def log(func):
 
 
 def message(func):
+
     @functools.wraps(func)
     def decorator(self, *args, **kwargs):
         url, data = func(self, *args, **kwargs)
@@ -111,7 +113,12 @@ class Bot(TelegramObject):
 
     """
 
-    def __init__(self, token, base_url=None, base_file_url=None, request=None, private_key=None,
+    def __init__(self,
+                 token,
+                 base_url=None,
+                 base_file_url=None,
+                 request=None,
+                 private_key=None,
                  private_key_password=None):
         self.token = self._validate_token(token)
 
@@ -1781,9 +1788,8 @@ class Bot(TelegramObject):
 
         """
         if inline_message_id is None and (chat_id is None or message_id is None):
-            raise ValueError(
-                'edit_message_caption: Both chat_id and message_id are required when '
-                'inline_message_id is not specified')
+            raise ValueError('edit_message_caption: Both chat_id and message_id are required when '
+                             'inline_message_id is not specified')
 
         url = '{0}/editMessageCaption'.format(self.base_url)
 
@@ -1838,9 +1844,8 @@ class Bot(TelegramObject):
         """
 
         if inline_message_id is None and (chat_id is None or message_id is None):
-            raise ValueError(
-                'edit_message_caption: Both chat_id and message_id are required when '
-                'inline_message_id is not specified')
+            raise ValueError('edit_message_caption: Both chat_id and message_id are required when '
+                             'inline_message_id is not specified')
 
         url = '{0}/editMessageMedia'.format(self.base_url)
 
@@ -2601,14 +2606,12 @@ class Bot(TelegramObject):
         ok = bool(ok)
 
         if ok and (shipping_options is None or error_message is not None):
-            raise TelegramError(
-                'answerShippingQuery: If ok is True, shipping_options '
-                'should not be empty and there should not be error_message')
+            raise TelegramError('answerShippingQuery: If ok is True, shipping_options '
+                                'should not be empty and there should not be error_message')
 
         if not ok and (shipping_options is not None or error_message is None):
-            raise TelegramError(
-                'answerShippingQuery: If ok is False, error_message '
-                'should not be empty and there should not be shipping_options')
+            raise TelegramError('answerShippingQuery: If ok is False, error_message '
+                                'should not be empty and there should not be shipping_options')
 
         url_ = '{0}/answerShippingQuery'.format(self.base_url)
 
@@ -2625,8 +2628,12 @@ class Bot(TelegramObject):
         return result
 
     @log
-    def answer_pre_checkout_query(self, pre_checkout_query_id, ok,
-                                  error_message=None, timeout=None, **kwargs):
+    def answer_pre_checkout_query(self,
+                                  pre_checkout_query_id,
+                                  ok,
+                                  error_message=None,
+                                  timeout=None,
+                                  **kwargs):
         """
         Once the user has confirmed their payment and shipping details, the Bot API sends the final
         confirmation in the form of an Update with the field pre_checkout_query. Use this method to
@@ -2660,10 +2667,9 @@ class Bot(TelegramObject):
         ok = bool(ok)
 
         if not (ok ^ (error_message is not None)):
-            raise TelegramError(
-                'answerPreCheckoutQuery: If ok is True, there should '
-                'not be error_message; if ok is False, error_message '
-                'should not be empty')
+            raise TelegramError('answerPreCheckoutQuery: If ok is True, there should '
+                                'not be error_message; if ok is False, error_message '
+                                'should not be empty')
 
         url_ = '{0}/answerPreCheckoutQuery'.format(self.base_url)
 
@@ -2678,9 +2684,16 @@ class Bot(TelegramObject):
         return result
 
     @log
-    def restrict_chat_member(self, chat_id, user_id, until_date=None, can_send_messages=None,
-                             can_send_media_messages=None, can_send_other_messages=None,
-                             can_add_web_page_previews=None, timeout=None, **kwargs):
+    def restrict_chat_member(self,
+                             chat_id,
+                             user_id,
+                             until_date=None,
+                             can_send_messages=None,
+                             can_send_media_messages=None,
+                             can_send_other_messages=None,
+                             can_add_web_page_previews=None,
+                             timeout=None,
+                             **kwargs):
         """
         Use this method to restrict a user in a supergroup. The bot must be an administrator in
         the supergroup for this to work and must have the appropriate admin rights. Pass True for
@@ -2738,11 +2751,19 @@ class Bot(TelegramObject):
         return result
 
     @log
-    def promote_chat_member(self, chat_id, user_id, can_change_info=None,
-                            can_post_messages=None, can_edit_messages=None,
-                            can_delete_messages=None, can_invite_users=None,
-                            can_restrict_members=None, can_pin_messages=None,
-                            can_promote_members=None, timeout=None, **kwargs):
+    def promote_chat_member(self,
+                            chat_id,
+                            user_id,
+                            can_change_info=None,
+                            can_post_messages=None,
+                            can_edit_messages=None,
+                            can_delete_messages=None,
+                            can_invite_users=None,
+                            can_restrict_members=None,
+                            can_pin_messages=None,
+                            can_promote_members=None,
+                            timeout=None,
+                            **kwargs):
         """
         Use this method to promote or demote a user in a supergroup or a channel. The bot must be
         an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -2980,7 +3001,11 @@ class Bot(TelegramObject):
         return result
 
     @log
-    def pin_chat_message(self, chat_id, message_id, disable_notification=None, timeout=None,
+    def pin_chat_message(self,
+                         chat_id,
+                         message_id,
+                         disable_notification=None,
+                         timeout=None,
                          **kwargs):
         """
         Use this method to pin a message in a supergroup. The bot must be an administrator in the
@@ -3115,8 +3140,16 @@ class Bot(TelegramObject):
         return File.de_json(result, self)
 
     @log
-    def create_new_sticker_set(self, user_id, name, title, png_sticker, emojis,
-                               contains_masks=None, mask_position=None, timeout=None, **kwargs):
+    def create_new_sticker_set(self,
+                               user_id,
+                               name,
+                               title,
+                               png_sticker,
+                               emojis,
+                               contains_masks=None,
+                               mask_position=None,
+                               timeout=None,
+                               **kwargs):
         """Use this method to create new sticker set owned by a user.
 
         The bot will be able to edit the created sticker set.
@@ -3161,8 +3194,13 @@ class Bot(TelegramObject):
         if InputFile.is_file(png_sticker):
             png_sticker = InputFile(png_sticker)
 
-        data = {'user_id': user_id, 'name': name, 'title': title, 'png_sticker': png_sticker,
-                'emojis': emojis}
+        data = {
+            'user_id': user_id,
+            'name': name,
+            'title': title,
+            'png_sticker': png_sticker,
+            'emojis': emojis
+        }
 
         if contains_masks is not None:
             data['contains_masks'] = contains_masks
@@ -3175,8 +3213,14 @@ class Bot(TelegramObject):
         return result
 
     @log
-    def add_sticker_to_set(self, user_id, name, png_sticker, emojis, mask_position=None,
-                           timeout=None, **kwargs):
+    def add_sticker_to_set(self,
+                           user_id,
+                           name,
+                           png_sticker,
+                           emojis,
+                           mask_position=None,
+                           timeout=None,
+                           **kwargs):
         """Use this method to add a new sticker to a set created by the bot.
 
         Note:

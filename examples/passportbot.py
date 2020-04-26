@@ -48,8 +48,7 @@ def msg(bot, update):
                     actual_file = file.get_file()
                     print(actual_file)
                     actual_file.download()
-            if data.type in ('passport', 'driver_license', 'identity_card',
-                             'internal_passport'):
+            if data.type in ('passport', 'driver_license', 'identity_card', 'internal_passport'):
                 if data.front_side:
                     file = data.front_side.get_file()
                     print(data.type, file)
@@ -59,16 +58,14 @@ def msg(bot, update):
                     file = data.reverse_side.get_file()
                     print(data.type, file)
                     file.download()
-            if data.type in ('passport', 'driver_license', 'identity_card',
-                             'internal_passport'):
+            if data.type in ('passport', 'driver_license', 'identity_card', 'internal_passport'):
                 if data.selfie:
                     file = data.selfie.get_file()
                     print(data.type, file)
                     file.download()
-            if data.type in ('passport', 'driver_license', 'identity_card',
-                             'internal_passport', 'utility_bill', 'bank_statement',
-                             'rental_agreement', 'passport_registration',
-                             'temporary_registration'):
+            if data.type in ('passport', 'driver_license', 'identity_card', 'internal_passport',
+                             'utility_bill', 'bank_statement', 'rental_agreement',
+                             'passport_registration', 'temporary_registration'):
                 print(data.type, len(data.translation), 'translation')
                 for file in data.translation:
                     actual_file = file.get_file()

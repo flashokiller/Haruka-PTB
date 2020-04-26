@@ -42,8 +42,12 @@ class TestContact(object):
         assert contact.first_name == self.first_name
 
     def test_de_json_all(self, bot):
-        json_dict = {'phone_number': self.phone_number, 'first_name': self.first_name,
-                     'last_name': self.last_name, 'user_id': self.user_id}
+        json_dict = {
+            'phone_number': self.phone_number,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'user_id': self.user_id
+        }
         contact = Contact.de_json(json_dict, bot)
 
         assert contact.phone_number == self.phone_number
@@ -52,6 +56,7 @@ class TestContact(object):
         assert contact.user_id == self.user_id
 
     def test_send_with_contact(self, monkeypatch, bot, chat_id, contact):
+
         def test(_, url, data, **kwargs):
             phone = data['phone_number'] == contact.phone_number
             first = data['first_name'] == contact.first_name

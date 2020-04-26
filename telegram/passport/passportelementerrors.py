@@ -69,12 +69,7 @@ class PassportElementErrorDataField(PassportElementError):
 
     """
 
-    def __init__(self,
-                 type,
-                 field_name,
-                 data_hash,
-                 message,
-                 **kwargs):
+    def __init__(self, type, field_name, data_hash, message, **kwargs):
         # Required
         super(PassportElementErrorDataField, self).__init__('data', type, message)
         self.field_name = field_name
@@ -105,11 +100,7 @@ class PassportElementErrorFile(PassportElementError):
 
     """
 
-    def __init__(self,
-                 type,
-                 file_hash,
-                 message,
-                 **kwargs):
+    def __init__(self, type, file_hash, message, **kwargs):
         # Required
         super(PassportElementErrorFile, self).__init__('file', type, message)
         self.file_hash = file_hash
@@ -139,11 +130,7 @@ class PassportElementErrorFiles(PassportElementError):
 
     """
 
-    def __init__(self,
-                 type,
-                 file_hashes,
-                 message,
-                 **kwargs):
+    def __init__(self, type, file_hashes, message, **kwargs):
         # Required
         super(PassportElementErrorFiles, self).__init__('files', type, message)
         self.file_hashes = file_hashes
@@ -174,11 +161,7 @@ class PassportElementErrorFrontSide(PassportElementError):
 
     """
 
-    def __init__(self,
-                 type,
-                 file_hash,
-                 message,
-                 **kwargs):
+    def __init__(self, type, file_hash, message, **kwargs):
         # Required
         super(PassportElementErrorFrontSide, self).__init__('front_side', type, message)
         self.file_hash = file_hash
@@ -208,11 +191,7 @@ class PassportElementErrorReverseSide(PassportElementError):
 
     """
 
-    def __init__(self,
-                 type,
-                 file_hash,
-                 message,
-                 **kwargs):
+    def __init__(self, type, file_hash, message, **kwargs):
         # Required
         super(PassportElementErrorReverseSide, self).__init__('reverse_side', type, message)
         self.file_hash = file_hash
@@ -240,11 +219,7 @@ class PassportElementErrorSelfie(PassportElementError):
 
     """
 
-    def __init__(self,
-                 type,
-                 file_hash,
-                 message,
-                 **kwargs):
+    def __init__(self, type, file_hash, message, **kwargs):
         # Required
         super(PassportElementErrorSelfie, self).__init__('selfie', type, message)
         self.file_hash = file_hash
@@ -276,14 +251,10 @@ class PassportElementErrorTranslationFile(PassportElementError):
 
     """
 
-    def __init__(self,
-                 type,
-                 file_hash,
-                 message,
-                 **kwargs):
+    def __init__(self, type, file_hash, message, **kwargs):
         # Required
-        super(PassportElementErrorTranslationFile, self).__init__('translation_file',
-                                                                  type, message)
+        super(PassportElementErrorTranslationFile, self).__init__('translation_file', type,
+                                                                  message)
         self.file_hash = file_hash
 
         self._id_attrs = (self.source, self.type, self.file_hash, self.message)
@@ -313,14 +284,10 @@ class PassportElementErrorTranslationFiles(PassportElementError):
 
     """
 
-    def __init__(self,
-                 type,
-                 file_hashes,
-                 message,
-                 **kwargs):
+    def __init__(self, type, file_hashes, message, **kwargs):
         # Required
-        super(PassportElementErrorTranslationFiles, self).__init__('translation_files',
-                                                                   type, message)
+        super(PassportElementErrorTranslationFiles, self).__init__('translation_files', type,
+                                                                   message)
         self.file_hashes = file_hashes
 
         self._id_attrs = ((self.source, self.type, self.message) +
@@ -345,11 +312,7 @@ class PassportElementErrorUnspecified(PassportElementError):
 
     """
 
-    def __init__(self,
-                 type,
-                 element_hash,
-                 message,
-                 **kwargs):
+    def __init__(self, type, element_hash, message, **kwargs):
         # Required
         super(PassportElementErrorUnspecified, self).__init__('unspecified', type, message)
         self.element_hash = element_hash

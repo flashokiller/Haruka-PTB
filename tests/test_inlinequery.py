@@ -24,8 +24,12 @@ from telegram import User, Location, InlineQuery, Update
 
 @pytest.fixture(scope='class')
 def inline_query(bot):
-    return InlineQuery(TestInlineQuery.id, TestInlineQuery.from_user, TestInlineQuery.query,
-                       TestInlineQuery.offset, location=TestInlineQuery.location, bot=bot)
+    return InlineQuery(TestInlineQuery.id,
+                       TestInlineQuery.from_user,
+                       TestInlineQuery.query,
+                       TestInlineQuery.offset,
+                       location=TestInlineQuery.location,
+                       bot=bot)
 
 
 class TestInlineQuery(object):
@@ -62,6 +66,7 @@ class TestInlineQuery(object):
         assert inline_query_dict['offset'] == inline_query.offset
 
     def test_answer(self, monkeypatch, inline_query):
+
         def test(*args, **kwargs):
             return args[1] == inline_query.id
 

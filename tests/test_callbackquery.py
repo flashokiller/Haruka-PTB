@@ -47,13 +47,15 @@ class TestCallbackQuery(object):
     game_short_name = 'the_game'
 
     def test_de_json(self, bot):
-        json_dict = {'id': self.id,
-                     'from': self.from_user.to_dict(),
-                     'chat_instance': self.chat_instance,
-                     'message': self.message.to_dict(),
-                     'data': self.data,
-                     'inline_message_id': self.inline_message_id,
-                     'game_short_name': self.game_short_name}
+        json_dict = {
+            'id': self.id,
+            'from': self.from_user.to_dict(),
+            'chat_instance': self.chat_instance,
+            'message': self.message.to_dict(),
+            'data': self.data,
+            'inline_message_id': self.inline_message_id,
+            'game_short_name': self.game_short_name
+        }
         callback_query = CallbackQuery.de_json(json_dict, bot)
 
         assert callback_query.id == self.id
@@ -79,6 +81,7 @@ class TestCallbackQuery(object):
         assert callback_query_dict['game_short_name'] == callback_query.game_short_name
 
     def test_answer(self, monkeypatch, callback_query):
+
         def test(*args, **kwargs):
             return args[1] == callback_query.id
 
@@ -87,6 +90,7 @@ class TestCallbackQuery(object):
         assert callback_query.answer()
 
     def test_edit_message_text(self, monkeypatch, callback_query):
+
         def test(*args, **kwargs):
             try:
                 id = kwargs['inline_message_id'] == callback_query.inline_message_id
@@ -102,6 +106,7 @@ class TestCallbackQuery(object):
         assert callback_query.edit_message_text(text='test')
 
     def test_edit_message_caption(self, monkeypatch, callback_query):
+
         def test(*args, **kwargs):
             try:
                 id = kwargs['inline_message_id'] == callback_query.inline_message_id
@@ -117,6 +122,7 @@ class TestCallbackQuery(object):
         assert callback_query.edit_message_caption(caption='new caption')
 
     def test_edit_message_reply_markup(self, monkeypatch, callback_query):
+
         def test(*args, **kwargs):
             try:
                 id = kwargs['inline_message_id'] == callback_query.inline_message_id

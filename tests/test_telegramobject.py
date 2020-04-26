@@ -30,6 +30,7 @@ from telegram import TelegramObject
 
 
 class TestTelegramObject(object):
+
     def test_to_json_native(self, monkeypatch):
         if rapidjson:
             monkeypatch.setattr('rapidjson.dumps', json_lib.dumps)

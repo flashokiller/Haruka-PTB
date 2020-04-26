@@ -80,8 +80,8 @@ class TestInlineQueryResultArticle(object):
         assert inline_query_result_article_dict['hide_url'] == inline_query_result_article.hide_url
         assert (inline_query_result_article_dict['description'] ==
                 inline_query_result_article.description)
-        assert (inline_query_result_article_dict['thumb_url'] ==
-                inline_query_result_article.thumb_url)
+        assert (
+            inline_query_result_article_dict['thumb_url'] == inline_query_result_article.thumb_url)
         assert (inline_query_result_article_dict['thumb_height'] ==
                 inline_query_result_article.thumb_height)
         assert (inline_query_result_article_dict['thumb_width'] ==

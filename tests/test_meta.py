@@ -33,14 +33,14 @@ def call_pre_commit_hook(hook_id):
 @pytest.mark.skipif(not (os.getenv('TRAVIS') or os.getenv('APPVEYOR')), reason='Not running in CI')
 @pytest.mark.skipif(not sys.version_info[:2] == (3, 6) or python_implementation() != 'CPython',
                     reason='Only running pre-commit-hooks on newest tested python version, '
-                           'as they are slow and consistent across platforms.')
+                    'as they are slow and consistent across platforms.')
 def test_pre_commit_hook(hook_id):
     assert call_pre_commit_hook(hook_id) == 0  # pragma: no cover
 
 
 @pytest.mark.nocoverage
-@pytest.mark.skipif(
-    not sys.version_info[:2] in ((3, 6), (2, 7)) or python_implementation() != 'CPython',
-    reason='Only testing build on 2.7 and 3.6')
+@pytest.mark.skipif(not sys.version_info[:2] in ((3, 6), (2, 7))
+                    or python_implementation() != 'CPython',
+                    reason='Only testing build on 2.7 and 3.6')
 def test_build():
     assert os.system('python setup.py bdist_dumb') == 0  # pragma: no cover

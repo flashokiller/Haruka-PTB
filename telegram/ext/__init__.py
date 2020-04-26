@@ -41,6 +41,6 @@ from .messagequeue import DelayQueue
 __all__ = ('Dispatcher', 'JobQueue', 'Job', 'Updater', 'CallbackQueryHandler',
            'ChosenInlineResultHandler', 'CommandHandler', 'Handler', 'InlineQueryHandler',
            'MessageHandler', 'BaseFilter', 'Filters', 'RegexHandler', 'StringCommandHandler',
-           'StringRegexHandler', 'TypeHandler', 'ConversationHandler',
-           'PreCheckoutQueryHandler', 'ShippingQueryHandler', 'MessageQueue', 'DelayQueue',
-           'DispatcherHandlerStop', 'run_async')
+           'StringRegexHandler', 'TypeHandler', 'ConversationHandler', 'PreCheckoutQueryHandler',
+           'ShippingQueryHandler', 'MessageQueue', 'DelayQueue', 'DispatcherHandlerStop',
+           'run_async')

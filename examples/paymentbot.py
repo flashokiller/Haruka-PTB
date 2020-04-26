@@ -7,8 +7,8 @@ This program is dedicated to the public domain under the CC0 license.
 """
 
 from telegram import (LabeledPrice, ShippingOption)
-from telegram.ext import (Updater, CommandHandler, MessageHandler,
-                          Filters, PreCheckoutQueryHandler, ShippingQueryHandler)
+from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
+                          PreCheckoutQueryHandler, ShippingQueryHandler)
 import logging
 
 # Enable logging
@@ -47,10 +47,19 @@ def start_with_shipping_callback(bot, update):
 
     # optionally pass need_name=True, need_phone_number=True,
     # need_email=True, need_shipping_address=True, is_flexible=True
-    bot.sendInvoice(chat_id, title, description, payload,
-                    provider_token, start_parameter, currency, prices,
-                    need_name=True, need_phone_number=True,
-                    need_email=True, need_shipping_address=True, is_flexible=True)
+    bot.sendInvoice(chat_id,
+                    title,
+                    description,
+                    payload,
+                    provider_token,
+                    start_parameter,
+                    currency,
+                    prices,
+                    need_name=True,
+                    need_phone_number=True,
+                    need_email=True,
+                    need_shipping_address=True,
+                    is_flexible=True)
 
 
 def start_without_shipping_callback(bot, update):
@@ -70,8 +79,8 @@ def start_without_shipping_callback(bot, update):
 
     # optionally pass need_name=True, need_phone_number=True,
     # need_email=True, need_shipping_address=True, is_flexible=True
-    bot.sendInvoice(chat_id, title, description, payload,
-                    provider_token, start_parameter, currency, prices)
+    bot.sendInvoice(chat_id, title, description, payload, provider_token, start_parameter,
+                    currency, prices)
 
 
 def shipping_callback(bot, update):
@@ -79,7 +88,8 @@ def shipping_callback(bot, update):
     # check the payload, is this from your bot?
     if query.invoice_payload != 'Custom-Payload':
         # answer False pre_checkout_query
-        bot.answer_shipping_query(shipping_query_id=query.id, ok=False,
+        bot.answer_shipping_query(shipping_query_id=query.id,
+                                  ok=False,
                                   error_message="Something went wrong...")
         return
     else:
@@ -89,8 +99,7 @@ def shipping_callback(bot, update):
         # an array of LabeledPrice objects
         price_list = [LabeledPrice('B1', 150), LabeledPrice('B2', 200)]
         options.append(ShippingOption('2', 'Shipping Option B', price_list))
-        bot.answer_shipping_query(shipping_query_id=query.id, ok=True,
-                                  shipping_options=options)
+        bot.answer_shipping_query(shipping_query_id=query.id, ok=True, shipping_options=options)
 
 
 # after (optional) shipping, it's the pre-checkout
@@ -99,7 +108,8 @@ def precheckout_callback(bot, update):
     # check the payload, is this from your bot?
     if query.invoice_payload != 'Custom-Payload':
         # answer False pre_checkout_query
-        bot.answer_pre_checkout_query(pre_checkout_query_id=query.id, ok=False,
+        bot.answer_pre_checkout_query(pre_checkout_query_id=query.id,
+                                      ok=False,
                                       error_message="Something went wrong...")
     else:
         bot.answer_pre_checkout_query(pre_checkout_query_id=query.id, ok=True)

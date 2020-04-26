@@ -75,7 +75,13 @@ class InputMediaAnimation(InputMedia):
         arguments.
     """
 
-    def __init__(self, media, thumb=None, caption=None, parse_mode=None, width=None, height=None,
+    def __init__(self,
+                 media,
+                 thumb=None,
+                 caption=None,
+                 parse_mode=None,
+                 width=None,
+                 height=None,
                  duration=None):
         self.type = 'animation'
 
@@ -191,8 +197,15 @@ class InputMediaVideo(InputMedia):
         arguments.
     """
 
-    def __init__(self, media, caption=None, width=None, height=None, duration=None,
-                 supports_streaming=None, parse_mode=None, thumb=None):
+    def __init__(self,
+                 media,
+                 caption=None,
+                 width=None,
+                 height=None,
+                 duration=None,
+                 supports_streaming=None,
+                 parse_mode=None,
+                 thumb=None):
         self.type = 'video'
 
         if isinstance(media, Video):
@@ -268,8 +281,14 @@ class InputMediaAudio(InputMedia):
         optional arguments.
     """
 
-    def __init__(self, media, thumb=None, caption=None, parse_mode=None,
-                 duration=None, performer=None, title=None):
+    def __init__(self,
+                 media,
+                 thumb=None,
+                 caption=None,
+                 parse_mode=None,
+                 duration=None,
+                 performer=None,
+                 title=None):
         self.type = 'audio'
 
         if isinstance(media, Audio):

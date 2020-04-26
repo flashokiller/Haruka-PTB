@@ -24,14 +24,14 @@ from telegram import InlineKeyboardButton
 
 @pytest.fixture(scope='class')
 def inline_keyboard_button():
-    return InlineKeyboardButton(TestInlineKeyboardButton.text,
-                                url=TestInlineKeyboardButton.url,
-                                callback_data=TestInlineKeyboardButton.callback_data,
-                                switch_inline_query=TestInlineKeyboardButton.switch_inline_query,
-                                switch_inline_query_current_chat=TestInlineKeyboardButton
-                                .switch_inline_query_current_chat,
-                                callback_game=TestInlineKeyboardButton.callback_game,
-                                pay=TestInlineKeyboardButton.pay)
+    return InlineKeyboardButton(
+        TestInlineKeyboardButton.text,
+        url=TestInlineKeyboardButton.url,
+        callback_data=TestInlineKeyboardButton.callback_data,
+        switch_inline_query=TestInlineKeyboardButton.switch_inline_query,
+        switch_inline_query_current_chat=TestInlineKeyboardButton.switch_inline_query_current_chat,
+        callback_game=TestInlineKeyboardButton.callback_game,
+        pay=TestInlineKeyboardButton.pay)
 
 
 class TestInlineKeyboardButton(object):

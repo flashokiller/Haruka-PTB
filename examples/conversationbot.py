@@ -47,9 +47,10 @@ def start(bot, update):
 def gender(bot, update):
     user = update.message.from_user
     logger.info("Gender of %s: %s", user.first_name, update.message.text)
-    update.message.reply_text('I see! Please send me a photo of yourself, '
-                              'so I know what you look like, or send /skip if you don\'t want to.',
-                              reply_markup=ReplyKeyboardRemove())
+    update.message.reply_text(
+        'I see! Please send me a photo of yourself, '
+        'so I know what you look like, or send /skip if you don\'t want to.',
+        reply_markup=ReplyKeyboardRemove())
 
     return PHOTO
 
@@ -126,21 +127,17 @@ def main():
     # Add conversation handler with the states GENDER, PHOTO, LOCATION and BIO
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
-
         states={
             GENDER: [RegexHandler('^(Boy|Girl|Other)$', gender)],
-
             PHOTO: [MessageHandler(Filters.photo, photo),
                     CommandHandler('skip', skip_photo)],
-
-            LOCATION: [MessageHandler(Filters.location, location),
-                       CommandHandler('skip', skip_location)],
-
+            LOCATION: [
+                MessageHandler(Filters.location, location),
+                CommandHandler('skip', skip_location)
+            ],
             BIO: [MessageHandler(Filters.text, bio)]
         },
-
-        fallbacks=[CommandHandler('cancel', cancel)]
-    )
+        fallbacks=[CommandHandler('cancel', cancel)])
 
     dp.add_handler(conv_handler)
 

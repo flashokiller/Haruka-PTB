@@ -62,8 +62,11 @@ class TestVideoNote(object):
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_send_all_args(self, bot, chat_id, video_note_file, video_note, thumb_file):
-        message = bot.send_video_note(chat_id, video_note_file, duration=self.duration,
-                                      length=self.length, disable_notification=False,
+        message = bot.send_video_note(chat_id,
+                                      video_note_file,
+                                      duration=self.duration,
+                                      length=self.length,
+                                      disable_notification=False,
                                       thumb=thumb_file)
 
         assert isinstance(message.video_note, VideoNote)
@@ -97,6 +100,7 @@ class TestVideoNote(object):
         assert message.video_note == video_note
 
     def test_send_with_video_note(self, monkeypatch, bot, chat_id, video_note):
+
         def test(_, url, data, **kwargs):
             return data['video_note'] == video_note.file_id
 
@@ -144,6 +148,7 @@ class TestVideoNote(object):
             bot.send_video_note(chat_id=chat_id)
 
     def test_get_file_instance_method(self, monkeypatch, video_note):
+
         def test(*args, **kwargs):
             return args[1] == video_note.file_id
 

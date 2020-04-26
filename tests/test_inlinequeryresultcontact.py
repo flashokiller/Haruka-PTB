@@ -72,10 +72,10 @@ class TestInlineQueryResultContact(object):
                 inline_query_result_contact.phone_number)
         assert (inline_query_result_contact_dict['first_name'] ==
                 inline_query_result_contact.first_name)
-        assert (inline_query_result_contact_dict['last_name'] ==
-                inline_query_result_contact.last_name)
-        assert (inline_query_result_contact_dict['thumb_url'] ==
-                inline_query_result_contact.thumb_url)
+        assert (
+            inline_query_result_contact_dict['last_name'] == inline_query_result_contact.last_name)
+        assert (
+            inline_query_result_contact_dict['thumb_url'] == inline_query_result_contact.thumb_url)
         assert (inline_query_result_contact_dict['thumb_width'] ==
                 inline_query_result_contact.thumb_width)
         assert (inline_query_result_contact_dict['thumb_height'] ==

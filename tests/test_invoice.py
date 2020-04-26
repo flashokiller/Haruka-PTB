@@ -40,13 +40,14 @@ class TestInvoice(object):
     total_amount = sum([p.amount for p in prices])
 
     def test_de_json(self, bot):
-        invoice_json = Invoice.de_json({
-            'title': TestInvoice.title,
-            'description': TestInvoice.description,
-            'start_parameter': TestInvoice.start_parameter,
-            'currency': TestInvoice.currency,
-            'total_amount': TestInvoice.total_amount
-        }, bot)
+        invoice_json = Invoice.de_json(
+            {
+                'title': TestInvoice.title,
+                'description': TestInvoice.description,
+                'start_parameter': TestInvoice.start_parameter,
+                'currency': TestInvoice.currency,
+                'total_amount': TestInvoice.total_amount
+            }, bot)
 
         assert invoice_json.title == self.title
         assert invoice_json.description == self.description
@@ -80,29 +81,28 @@ class TestInvoice(object):
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_send_all_args(self, bot, chat_id, provider_token):
-        message = bot.send_invoice(
-            chat_id,
-            self.title,
-            self.description,
-            self.payload,
-            provider_token,
-            self.start_parameter,
-            self.currency,
-            self.prices,
-            provider_data=self.provider_data,
-            photo_url='https://raw.githubusercontent.com/'
-                      'python-telegram-bot/logos/master/'
-                      'logo/png/ptb-logo_240.png',
-            photo_size=240,
-            photo_width=240,
-            photo_height=240,
-            need_name=True,
-            need_phone_number=True,
-            need_email=True,
-            need_shipping_address=True,
-            send_phone_number_to_provider=True,
-            send_email_to_provider=True,
-            is_flexible=True)
+        message = bot.send_invoice(chat_id,
+                                   self.title,
+                                   self.description,
+                                   self.payload,
+                                   provider_token,
+                                   self.start_parameter,
+                                   self.currency,
+                                   self.prices,
+                                   provider_data=self.provider_data,
+                                   photo_url='https://raw.githubusercontent.com/'
+                                   'python-telegram-bot/logos/master/'
+                                   'logo/png/ptb-logo_240.png',
+                                   photo_size=240,
+                                   photo_width=240,
+                                   photo_height=240,
+                                   need_name=True,
+                                   need_phone_number=True,
+                                   need_email=True,
+                                   need_shipping_address=True,
+                                   send_phone_number_to_provider=True,
+                                   send_email_to_provider=True,
+                                   is_flexible=True)
 
         assert message.invoice.currency == self.currency
         assert message.invoice.start_parameter == self.start_parameter
@@ -111,12 +111,19 @@ class TestInvoice(object):
         assert message.invoice.total_amount == self.total_amount
 
     def test_send_object_as_provider_data(self, monkeypatch, bot, chat_id, provider_token):
+
         def test(_, url, data, **kwargs):
             return (data['provider_data'] == '{"test_data": 123456789}' or  # Depends if using
                     data['provider_data'] == '{"test_data":123456789}')  # rapidjson or not
 
         monkeypatch.setattr('telegram.utils.request.Request.post', test)
 
-        assert bot.send_invoice(chat_id, self.title, self.description, self.payload,
-                                provider_token, self.start_parameter, self.currency,
-                                self.prices, provider_data={'test_data': 123456789})
+        assert bot.send_invoice(chat_id,
+                                self.title,
+                                self.description,
+                                self.payload,
+                                provider_token,
+                                self.start_parameter,
+                                self.currency,
+                                self.prices,
+                                provider_data={'test_data': 123456789})

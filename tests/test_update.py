@@ -19,27 +19,35 @@
 
 import pytest
 
-from telegram import (Message, User, Update, Chat, CallbackQuery, InlineQuery,
-                      ChosenInlineResult, ShippingQuery, PreCheckoutQuery)
+from telegram import (Message, User, Update, Chat, CallbackQuery, InlineQuery, ChosenInlineResult,
+                      ShippingQuery, PreCheckoutQuery)
 
 message = Message(1, User(1, '', False), None, Chat(1, ''), text='Text')
 
-params = [
-    {'message': message},
-    {'edited_message': message},
-    {'callback_query': CallbackQuery(1, User(1, '', False), 'chat', message=message)},
-    {'channel_post': message},
-    {'edited_channel_post': message},
-    {'inline_query': InlineQuery(1, User(1, '', False), '', '')},
-    {'chosen_inline_result': ChosenInlineResult('id', User(1, '', False), '')},
-    {'shipping_query': ShippingQuery('id', User(1, '', False), '', None)},
-    {'pre_checkout_query': PreCheckoutQuery('id', User(1, '', False), '', 0, '')},
-    {'callback_query': CallbackQuery(1, User(1, '', False), 'chat')}
-]
+params = [{
+    'message': message
+}, {
+    'edited_message': message
+}, {
+    'callback_query': CallbackQuery(1, User(1, '', False), 'chat', message=message)
+}, {
+    'channel_post': message
+}, {
+    'edited_channel_post': message
+}, {
+    'inline_query': InlineQuery(1, User(1, '', False), '', '')
+}, {
+    'chosen_inline_result': ChosenInlineResult('id', User(1, '', False), '')
+}, {
+    'shipping_query': ShippingQuery('id', User(1, '', False), '', None)
+}, {
+    'pre_checkout_query': PreCheckoutQuery('id', User(1, '', False), '', 0, '')
+}, {
+    'callback_query': CallbackQuery(1, User(1, '', False), 'chat')
+}]
 
-all_types = ('message', 'edited_message', 'callback_query', 'channel_post',
-             'edited_channel_post', 'inline_query', 'chosen_inline_result',
-             'shipping_query', 'pre_checkout_query')
+all_types = ('message', 'edited_message', 'callback_query', 'channel_post', 'edited_channel_post',
+             'inline_query', 'chosen_inline_result', 'shipping_query', 'pre_checkout_query')
 
 ids = all_types + ('callback_query_without_message',)
 
@@ -86,12 +94,9 @@ class TestUpdate(object):
     def test_effective_chat(self, update):
         # Test that it's sometimes None per docstring
         chat = update.effective_chat
-        if not (update.inline_query is not None
-                or update.chosen_inline_result is not None
-                or (update.callback_query is not None
-                    and update.callback_query.message is None)
-                or update.shipping_query is not None
-                or update.pre_checkout_query is not None):
+        if not (update.inline_query is not None or update.chosen_inline_result is not None or
+                (update.callback_query is not None and update.callback_query.message is None)
+                or update.shipping_query is not None or update.pre_checkout_query is not None):
             assert chat.id == 1
         else:
             assert chat is None
@@ -107,12 +112,9 @@ class TestUpdate(object):
     def test_effective_message(self, update):
         # Test that it's sometimes None per docstring
         eff_message = update.effective_message
-        if not (update.inline_query is not None
-                or update.chosen_inline_result is not None
-                or (update.callback_query is not None
-                    and update.callback_query.message is None)
-                or update.shipping_query is not None
-                or update.pre_checkout_query is not None):
+        if not (update.inline_query is not None or update.chosen_inline_result is not None or
+                (update.callback_query is not None and update.callback_query.message is None)
+                or update.shipping_query is not None or update.pre_checkout_query is not None):
             assert eff_message.message_id == message.message_id
         else:
             assert eff_message is None

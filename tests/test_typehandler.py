@@ -73,7 +73,9 @@ class TestTypeHandler(object):
         assert self.test_flag
 
         dp.remove_handler(handler)
-        handler = TypeHandler(dict, self.callback_queue_2, pass_job_queue=True,
+        handler = TypeHandler(dict,
+                              self.callback_queue_2,
+                              pass_job_queue=True,
                               pass_update_queue=True)
         dp.add_handler(handler)
 

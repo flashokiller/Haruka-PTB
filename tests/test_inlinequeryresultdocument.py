@@ -99,10 +99,8 @@ class TestInlineQueryResultDocument(object):
                 inline_query_result_document.reply_markup.to_dict())
 
     def test_equality(self):
-        a = InlineQueryResultDocument(self.id, self.document_url, self.title,
-                                      self.mime_type)
-        b = InlineQueryResultDocument(self.id, self.document_url, self.title,
-                                      self.mime_type)
+        a = InlineQueryResultDocument(self.id, self.document_url, self.title, self.mime_type)
+        b = InlineQueryResultDocument(self.id, self.document_url, self.title, self.mime_type)
         c = InlineQueryResultDocument(self.id, '', self.title, self.mime_type)
         d = InlineQueryResultDocument('', self.document_url, self.title, self.mime_type)
         e = InlineQueryResultVoice(self.id, '', '')

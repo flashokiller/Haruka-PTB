@@ -56,8 +56,7 @@ class InputFile(object):
 
         if filename:
             self.filename = filename
-        elif (hasattr(obj, 'name') and
-              not isinstance(obj.name, int) and  # py3
+        elif (hasattr(obj, 'name') and not isinstance(obj.name, int) and  # py3
               obj.name != '<fdopen>'):  # py2
             # on py2.7, pylint fails to understand this properly
             # pylint: disable=E1101
@@ -67,8 +66,7 @@ class InputFile(object):
             self.mimetype = self.is_image(self.input_file_content)
         except TelegramError:
             if self.filename:
-                self.mimetype = mimetypes.guess_type(
-                    self.filename)[0] or DEFAULT_MIME_TYPE
+                self.mimetype = mimetypes.guess_type(self.filename)[0] or DEFAULT_MIME_TYPE
             else:
                 self.mimetype = DEFAULT_MIME_TYPE
         if not self.filename or '.' not in self.filename:

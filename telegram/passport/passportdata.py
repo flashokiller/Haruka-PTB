@@ -84,8 +84,7 @@ class PassportData(TelegramObject):
         """
         if self._decrypted_data is None:
             self._decrypted_data = [
-                EncryptedPassportElement.de_json_decrypted(element.to_dict(),
-                                                           self.bot,
+                EncryptedPassportElement.de_json_decrypted(element.to_dict(), self.bot,
                                                            self.decrypted_credentials)
                 for element in self.data
             ]

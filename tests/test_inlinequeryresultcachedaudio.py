@@ -51,15 +51,15 @@ class TestInlineQueryResultCachedAudio(object):
         assert inline_query_result_cached_audio.parse_mode == self.parse_mode
         assert (inline_query_result_cached_audio.input_message_content.to_dict() ==
                 self.input_message_content.to_dict())
-        assert (inline_query_result_cached_audio.reply_markup.to_dict() ==
-                self.reply_markup.to_dict())
+        assert (
+            inline_query_result_cached_audio.reply_markup.to_dict() == self.reply_markup.to_dict())
 
     def test_to_dict(self, inline_query_result_cached_audio):
         inline_query_result_cached_audio_dict = inline_query_result_cached_audio.to_dict()
 
         assert isinstance(inline_query_result_cached_audio_dict, dict)
-        assert (inline_query_result_cached_audio_dict['type'] ==
-                inline_query_result_cached_audio.type)
+        assert (
+            inline_query_result_cached_audio_dict['type'] == inline_query_result_cached_audio.type)
         assert inline_query_result_cached_audio_dict['id'] == inline_query_result_cached_audio.id
         assert (inline_query_result_cached_audio_dict['audio_file_id'] ==
                 inline_query_result_cached_audio.audio_file_id)

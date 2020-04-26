@@ -58,14 +58,11 @@ class TestEncryptedPassportElement(object):
         encrypted_passport_element_dict = encrypted_passport_element.to_dict()
 
         assert isinstance(encrypted_passport_element_dict, dict)
-        assert (encrypted_passport_element_dict['type'] ==
-                encrypted_passport_element.type)
-        assert (encrypted_passport_element_dict['data'] ==
-                encrypted_passport_element.data)
+        assert (encrypted_passport_element_dict['type'] == encrypted_passport_element.type)
+        assert (encrypted_passport_element_dict['data'] == encrypted_passport_element.data)
         assert (encrypted_passport_element_dict['phone_number'] ==
                 encrypted_passport_element.phone_number)
-        assert (encrypted_passport_element_dict['email'] ==
-                encrypted_passport_element.email)
+        assert (encrypted_passport_element_dict['email'] == encrypted_passport_element.email)
         assert isinstance(encrypted_passport_element_dict['files'], list)
         assert (encrypted_passport_element_dict['front_side'] ==
                 encrypted_passport_element.front_side.to_dict())

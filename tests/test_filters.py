@@ -30,13 +30,13 @@ def message():
     return Message(0, User(0, 'Testuser', False), datetime.datetime.now(), Chat(0, 'private'))
 
 
-@pytest.fixture(scope='function',
-                params=MessageEntity.ALL_TYPES)
+@pytest.fixture(scope='function', params=MessageEntity.ALL_TYPES)
 def message_entity(request):
     return MessageEntity(request.param, 0, 0, url='', user='')
 
 
 class TestFilters(object):
+
     def test_filters_all(self, message):
         assert Filters.all(message)
 
@@ -491,6 +491,7 @@ class TestFilters(object):
         assert (~(Filters.forwarded & Filters.command))(message)
 
     def test_faulty_custom_filter(self, message):
+
         class _CustomFilter(BaseFilter):
             pass
 
@@ -500,7 +501,9 @@ class TestFilters(object):
             (custom & Filters.text)(message)
 
     def test_custom_unnamed_filter(self, message):
+
         class Unnamed(BaseFilter):
+
             def filter(self, mes):
                 return True
 

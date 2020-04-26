@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-
 """Simple Bot to send timed Telegram messages.
 
 # This program is dedicated to the public domain under the CC0 license.
@@ -88,10 +86,8 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", start))
-    dp.add_handler(CommandHandler("set", set_timer,
-                                  pass_args=True,
-                                  pass_job_queue=True,
-                                  pass_chat_data=True))
+    dp.add_handler(
+        CommandHandler("set", set_timer, pass_args=True, pass_job_queue=True, pass_chat_data=True))
     dp.add_handler(CommandHandler("unset", unset, pass_chat_data=True))
 
     # log all errors

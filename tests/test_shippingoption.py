@@ -31,10 +31,7 @@ def shipping_option():
 class TestShippingOption(object):
     id = 'id'
     title = 'title'
-    prices = [
-        LabeledPrice('Fish Container', 100),
-        LabeledPrice('Premium Fish Container', 1000)
-    ]
+    prices = [LabeledPrice('Fish Container', 100), LabeledPrice('Premium Fish Container', 1000)]
 
     def test_expected_values(self, shipping_option):
         assert shipping_option.id == self.id

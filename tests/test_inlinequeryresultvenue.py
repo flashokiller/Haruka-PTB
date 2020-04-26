@@ -86,8 +86,8 @@ class TestInlineQueryResultVenue(object):
         assert (inline_query_result_venue_dict['foursquare_type'] ==
                 inline_query_result_venue.foursquare_type)
         assert inline_query_result_venue_dict['thumb_url'] == inline_query_result_venue.thumb_url
-        assert (inline_query_result_venue_dict['thumb_width'] ==
-                inline_query_result_venue.thumb_width)
+        assert (
+            inline_query_result_venue_dict['thumb_width'] == inline_query_result_venue.thumb_width)
         assert (inline_query_result_venue_dict['thumb_height'] ==
                 inline_query_result_venue.thumb_height)
         assert (inline_query_result_venue_dict['input_message_content'] ==
@@ -101,8 +101,7 @@ class TestInlineQueryResultVenue(object):
         b = InlineQueryResultVenue(self.id, self.longitude, self.latitude, self.title,
                                    self.address)
         c = InlineQueryResultVenue(self.id, '', self.latitude, self.title, self.address)
-        d = InlineQueryResultVenue('', self.longitude, self.latitude, self.title,
-                                   self.address)
+        d = InlineQueryResultVenue('', self.longitude, self.latitude, self.title, self.address)
         e = InlineQueryResultVoice(self.id, '', '')
 
         assert a == b

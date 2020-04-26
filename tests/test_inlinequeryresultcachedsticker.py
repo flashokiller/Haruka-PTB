@@ -55,8 +55,8 @@ class TestInlineQueryResultCachedSticker(object):
         assert isinstance(inline_query_result_cached_sticker_dict, dict)
         assert (inline_query_result_cached_sticker_dict['type'] ==
                 inline_query_result_cached_sticker.type)
-        assert (inline_query_result_cached_sticker_dict['id'] ==
-                inline_query_result_cached_sticker.id)
+        assert (
+            inline_query_result_cached_sticker_dict['id'] == inline_query_result_cached_sticker.id)
         assert (inline_query_result_cached_sticker_dict['sticker_file_id'] ==
                 inline_query_result_cached_sticker.sticker_file_id)
         assert (inline_query_result_cached_sticker_dict['input_message_content'] ==

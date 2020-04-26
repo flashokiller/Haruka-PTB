@@ -34,7 +34,9 @@ def audio_file():
 @pytest.fixture(scope='class')
 def audio(bot, chat_id):
     with open('tests/data/telegram.mp3', 'rb') as f:
-        return bot.send_audio(chat_id, audio=f, timeout=50,
+        return bot.send_audio(chat_id,
+                              audio=f,
+                              timeout=50,
                               thumb=open('tests/data/thumb.jpg', 'rb')).audio
 
 
@@ -71,10 +73,15 @@ class TestAudio(object):
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_send_all_args(self, bot, chat_id, audio_file, thumb_file):
-        message = bot.send_audio(chat_id, audio=audio_file, caption=self.caption,
-                                 duration=self.duration, performer=self.performer,
-                                 title=self.title, disable_notification=False,
-                                 parse_mode='Markdown', thumb=thumb_file)
+        message = bot.send_audio(chat_id,
+                                 audio=audio_file,
+                                 caption=self.caption,
+                                 duration=self.duration,
+                                 performer=self.performer,
+                                 title=self.title,
+                                 disable_notification=False,
+                                 parse_mode='Markdown',
+                                 thumb=thumb_file)
 
         assert message.caption == self.caption.replace('*', '')
 
@@ -125,6 +132,7 @@ class TestAudio(object):
         assert message.audio == audio
 
     def test_send_with_audio(self, monkeypatch, bot, chat_id, audio):
+
         def test(_, url, data, **kwargs):
             return data['audio'] == audio.file_id
 
@@ -133,14 +141,16 @@ class TestAudio(object):
         assert message
 
     def test_de_json(self, bot, audio):
-        json_dict = {'file_id': 'not a file id',
-                     'duration': self.duration,
-                     'performer': self.performer,
-                     'title': self.title,
-                     'caption': self.caption,
-                     'mime_type': self.mime_type,
-                     'file_size': self.file_size,
-                     'thumb': audio.thumb.to_dict()}
+        json_dict = {
+            'file_id': 'not a file id',
+            'duration': self.duration,
+            'performer': self.performer,
+            'title': self.title,
+            'caption': self.caption,
+            'mime_type': self.mime_type,
+            'file_size': self.file_size,
+            'thumb': audio.thumb.to_dict()
+        }
         json_audio = Audio.de_json(json_dict, bot)
 
         assert json_audio.file_id == 'not a file id'
@@ -179,6 +189,7 @@ class TestAudio(object):
             bot.send_audio(chat_id=chat_id)
 
     def test_get_file_instance_method(self, monkeypatch, audio):
+
         def test(*args, **kwargs):
             return args[1] == audio.file_id
 

@@ -34,10 +34,9 @@ class TestInlineKeyboardMarkup(object):
     ]]
 
     def test_send_message_with_inline_keyboard_markup(self, bot, chat_id, inline_keyboard_markup):
-        message = bot.send_message(
-            chat_id,
-            'Testing InlineKeyboardMarkup',
-            reply_markup=inline_keyboard_markup)
+        message = bot.send_message(chat_id,
+                                   'Testing InlineKeyboardMarkup',
+                                   reply_markup=inline_keyboard_markup)
 
         assert message.text == 'Testing InlineKeyboardMarkup'
 
@@ -48,9 +47,6 @@ class TestInlineKeyboardMarkup(object):
         inline_keyboard_markup_dict = inline_keyboard_markup.to_dict()
 
         assert isinstance(inline_keyboard_markup_dict, dict)
-        assert inline_keyboard_markup_dict['inline_keyboard'] == [
-            [
-                self.inline_keyboard[0][0].to_dict(),
-                self.inline_keyboard[0][1].to_dict()
-            ]
-        ]
+        assert inline_keyboard_markup_dict['inline_keyboard'] == [[
+            self.inline_keyboard[0][0].to_dict(), self.inline_keyboard[0][1].to_dict()
+        ]]

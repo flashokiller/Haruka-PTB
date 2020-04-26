@@ -24,9 +24,10 @@ from telegram import PassportElementErrorTranslationFiles, PassportElementErrorS
 
 @pytest.fixture(scope='class')
 def passport_element_error_translation_files():
-    return PassportElementErrorTranslationFiles(TestPassportElementErrorTranslationFiles.type,
-                                                TestPassportElementErrorTranslationFiles.file_hashes,  # flake8: noqa
-                                                TestPassportElementErrorTranslationFiles.message)
+    return PassportElementErrorTranslationFiles(
+        TestPassportElementErrorTranslationFiles.type,
+        TestPassportElementErrorTranslationFiles.file_hashes,  # flake8: noqa
+        TestPassportElementErrorTranslationFiles.message)
 
 
 class TestPassportElementErrorTranslationFiles(object):

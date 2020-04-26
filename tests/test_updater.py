@@ -43,7 +43,7 @@ from telegram.ext import Updater
 
 signalskip = pytest.mark.skipif(sys.platform == 'win32',
                                 reason='Can\'t send signals without stopping '
-                                       'whole process on windows')
+                                'whole process on windows')
 
 
 class TestUpdater(object):
@@ -76,6 +76,7 @@ class TestUpdater(object):
                                         (Unauthorized('Test Unauthorized'),)],
                              ids=('TelegramError', 'Unauthorized'))
     def test_get_updates_normal_err(self, monkeypatch, updater, error):
+
         def test(*args, **kwargs):
             raise error
 
@@ -110,12 +111,11 @@ class TestUpdater(object):
         # NOTE: Checking Updater.running is problematic because it is not set to False when there's
         #       an unhandled exception.
         # TODO: We should have a way to poll Updater status and decide if it's running or not.
-        assert any('unhandled exception in updater' in rec.getMessage() for rec in
-                   caplog.get_records('call'))
+        assert any('unhandled exception in updater' in rec.getMessage()
+                   for rec in caplog.get_records('call'))
 
     @pytest.mark.parametrize(('error',),
-                             argvalues=[(RetryAfter(0.01),),
-                                        (TimedOut(),)],
+                             argvalues=[(RetryAfter(0.01),), (TimedOut(),)],
                              ids=('RetryAfter', 'TimedOut'))
     def test_get_updates_retries(self, monkeypatch, updater, error):
         event = Event()
@@ -152,7 +152,8 @@ class TestUpdater(object):
             port,
             url_path='TOKEN',
             cert='./tests/test_updater.py',
-            key='./tests/test_updater.py', )
+            key='./tests/test_updater.py',
+        )
         sleep(.2)
         # SSL-Wrapping will fail, so we start the server without SSL
         thr = Thread(target=updater.httpd.serve_forever)
@@ -160,8 +161,12 @@ class TestUpdater(object):
 
         try:
             # Now, we send an update to the server via urlopen
-            update = Update(1, message=Message(1, User(1, '', False), None, Chat(1, ''),
-                                               text='Webhook'))
+            update = Update(1,
+                            message=Message(1,
+                                            User(1, '', False),
+                                            None,
+                                            Chat(1, ''),
+                                            text='Webhook'))
             self._send_webhook_msg(ip, port, update.to_json(), 'TOKEN')
             sleep(.2)
             assert q.get(False) == update
@@ -170,7 +175,10 @@ class TestUpdater(object):
             assert b'' == response.read()
             assert 200 == response.code
 
-            response = self._send_webhook_msg(ip, port, None, 'webookhandler.py',
+            response = self._send_webhook_msg(ip,
+                                              port,
+                                              None,
+                                              'webookhandler.py',
                                               get_method=lambda: 'HEAD')
 
             assert b'' == response.read()
@@ -194,15 +202,14 @@ class TestUpdater(object):
         sleep(.2)
 
         # Now, we send an update to the server via urlopen
-        update = Update(1, message=Message(1, User(1, '', False), None, Chat(1, ''),
-                                           text='Webhook 2'))
+        update = Update(1,
+                        message=Message(1, User(1, '', False), None, Chat(1, ''),
+                                        text='Webhook 2'))
         self._send_webhook_msg(ip, port, update.to_json())
         sleep(.2)
         assert q.get(False) == update
 
-    @pytest.mark.parametrize(('error',),
-                             argvalues=[(TelegramError(''),)],
-                             ids=('TelegramError',))
+    @pytest.mark.parametrize(('error',), argvalues=[(TelegramError(''),)], ids=('TelegramError',))
     def test_bootstrap_retries_success(self, monkeypatch, updater, error):
         retries = 2
 
@@ -218,8 +225,7 @@ class TestUpdater(object):
         assert self.attempts == retries
 
     @pytest.mark.parametrize(('error', 'attempts'),
-                             argvalues=[(TelegramError(''), 2),
-                                        (Unauthorized(''), 1),
+                             argvalues=[(TelegramError(''), 2), (Unauthorized(''), 1),
                                         (InvalidToken(), 1)],
                              ids=('TelegramError', 'Unauthorized', 'InvalidToken'))
     def test_bootstrap_retries_error(self, monkeypatch, updater, error, attempts):
@@ -239,16 +245,17 @@ class TestUpdater(object):
     def test_webhook_invalid_posts(self, updater):
         ip = '127.0.0.1'
         port = randrange(1024, 49152)  # select random port for travis
-        thr = Thread(
-            target=updater._start_webhook,
-            args=(ip, port, '', None, None, 0, False, None, None))
+        thr = Thread(target=updater._start_webhook,
+                     args=(ip, port, '', None, None, 0, False, None, None))
         thr.start()
 
         sleep(.2)
 
         try:
             with pytest.raises(HTTPError) as excinfo:
-                self._send_webhook_msg(ip, port, '<root><bla>data</bla></root>',
+                self._send_webhook_msg(ip,
+                                       port,
+                                       '<root><bla>data</bla></root>',
                                        content_type='application/xml')
             assert excinfo.value.code == 403
 
@@ -277,7 +284,9 @@ class TestUpdater(object):
                           content_len=-1,
                           content_type='application/json',
                           get_method=None):
-        headers = {'content-type': content_type, }
+        headers = {
+            'content-type': content_type,
+        }
 
         if not payload_str:
             content_len = None

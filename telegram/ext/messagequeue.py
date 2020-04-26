@@ -214,16 +214,14 @@ class MessageQueue(object):
                  exc_route=None,
                  autostart=True):
         # create accoring delay queues, use composition
-        self._all_delayq = DelayQueue(
-            burst_limit=all_burst_limit,
-            time_limit_ms=all_time_limit_ms,
-            exc_route=exc_route,
-            autostart=autostart)
-        self._group_delayq = DelayQueue(
-            burst_limit=group_burst_limit,
-            time_limit_ms=group_time_limit_ms,
-            exc_route=exc_route,
-            autostart=autostart)
+        self._all_delayq = DelayQueue(burst_limit=all_burst_limit,
+                                      time_limit_ms=all_time_limit_ms,
+                                      exc_route=exc_route,
+                                      autostart=autostart)
+        self._group_delayq = DelayQueue(burst_limit=group_burst_limit,
+                                        time_limit_ms=group_time_limit_ms,
+                                        exc_route=exc_route,
+                                        autostart=autostart)
 
     def start(self):
         """Method is used to manually start the ``MessageQueue`` processing."""
@@ -305,7 +303,7 @@ def queuedmessage(method):
         queued = kwargs.pop('queued', self._is_messages_queued_default)
         isgroup = kwargs.pop('isgroup', False)
         if queued:
-            prom = promise.Promise(method, (self, ) + args, kwargs)
+            prom = promise.Promise(method, (self,) + args, kwargs)
             return self._msg_queue(prom, isgroup)
         return method(self, *args, **kwargs)
 

@@ -68,6 +68,7 @@ class TestFile(object):
             bot.get_file(file_id='')
 
     def test_download(self, monkeypatch, file):
+
         def test(*args, **kwargs):
             return self.file_content
 
@@ -81,6 +82,7 @@ class TestFile(object):
             os.unlink(out_file)
 
     def test_download_custom_path(self, monkeypatch, file):
+
         def test(*args, **kwargs):
             return self.file_content
 
@@ -97,6 +99,7 @@ class TestFile(object):
             os.unlink(custom_path)
 
     def test_download_file_obj(self, monkeypatch, file):
+
         def test(*args, **kwargs):
             return self.file_content
 
@@ -109,6 +112,7 @@ class TestFile(object):
             assert out_fobj.read() == self.file_content
 
     def test_download_bytearray(self, monkeypatch, file):
+
         def test(*args, **kwargs):
             return self.file_content
 

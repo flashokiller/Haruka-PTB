@@ -37,8 +37,11 @@ HIGHSCORE_DELTA = 1450000000
 
 @pytest.fixture(scope='class')
 def message(bot, chat_id):
-    return bot.send_message(chat_id, 'Text', reply_to_message_id=1,
-                            disable_web_page_preview=True, disable_notification=True)
+    return bot.send_message(chat_id,
+                            'Text',
+                            reply_to_message_id=1,
+                            disable_web_page_preview=True,
+                            disable_notification=True)
 
 
 @pytest.fixture(scope='class')
@@ -48,15 +51,12 @@ def media_message(bot, chat_id):
 
 
 class TestBot(object):
-    @pytest.mark.parametrize('token', argvalues=[
-        '123',
-        '12a:abcd1234',
-        '12:abcd1234',
-        '1234:abcd1234\n',
-        ' 1234:abcd1234',
-        ' 1234:abcd1234\r',
-        '1234:abcd 1234'
-    ])
+
+    @pytest.mark.parametrize('token',
+                             argvalues=[
+                                 '123', '12a:abcd1234', '12:abcd1234', '1234:abcd1234\n',
+                                 ' 1234:abcd1234', ' 1234:abcd1234\r', '1234:abcd 1234'
+                             ])
     def test_invalid_token(self, token):
         with pytest.raises(InvalidToken, match='Invalid token'):
             Bot(token)
@@ -117,8 +117,12 @@ class TestBot(object):
         address = 'address'
         foursquare_id = 'foursquare id'
         foursquare_type = 'foursquare type'
-        message = bot.send_venue(chat_id=chat_id, title=title, address=address, latitude=latitude,
-                                 longitude=longitude, foursquare_id=foursquare_id,
+        message = bot.send_venue(chat_id=chat_id,
+                                 title=title,
+                                 address=address,
+                                 latitude=latitude,
+                                 longitude=longitude,
+                                 foursquare_id=foursquare_id,
                                  foursquare_type=foursquare_type)
 
         assert message.venue
@@ -138,15 +142,17 @@ class TestBot(object):
         phone_number = '+11234567890'
         first_name = 'Leandro'
         last_name = 'Toledo'
-        message = bot.send_contact(chat_id=chat_id, phone_number=phone_number,
-                                   first_name=first_name, last_name=last_name)
+        message = bot.send_contact(chat_id=chat_id,
+                                   phone_number=phone_number,
+                                   first_name=first_name,
+                                   last_name=last_name)
 
         assert message.contact
         assert message.contact.phone_number == phone_number
         assert message.contact.first_name == first_name
         assert message.contact.last_name == last_name
 
-    @pytest.mark.skipif(os.getenv('APPVEYOR'), reason='No game made for Appveyor bot (''yet)')
+    @pytest.mark.skipif(os.getenv('APPVEYOR'), reason='No game made for Appveyor bot (' 'yet)')
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_send_game(self, bot, chat_id):
@@ -167,18 +173,35 @@ class TestBot(object):
     def test_answer_inline_query(self, monkeypatch, bot):
         # For now just test that our internals pass the correct data
         def test(_, url, data, *args, **kwargs):
-            return data == {'cache_time': 300,
-                            'results': [{'title': 'first', 'id': '11', 'type': 'article',
-                                         'input_message_content': {'message_text': 'first'}},
-                                        {'title': 'second', 'id': '12', 'type': 'article',
-                                         'input_message_content': {'message_text': 'second'}}],
-                            'next_offset': '42', 'switch_pm_parameter': 'start_pm',
-                            'inline_query_id': 1234, 'is_personal': True,
-                            'switch_pm_text': 'switch pm'}
+            return data == {
+                'cache_time': 300,
+                'results': [{
+                    'title': 'first',
+                    'id': '11',
+                    'type': 'article',
+                    'input_message_content': {
+                        'message_text': 'first'
+                    }
+                }, {
+                    'title': 'second',
+                    'id': '12',
+                    'type': 'article',
+                    'input_message_content': {
+                        'message_text': 'second'
+                    }
+                }],
+                'next_offset': '42',
+                'switch_pm_parameter': 'start_pm',
+                'inline_query_id': 1234,
+                'is_personal': True,
+                'switch_pm_text': 'switch pm'
+            }
 
         monkeypatch.setattr('telegram.utils.request.Request.post', test)
-        results = [InlineQueryResultArticle('11', 'first', InputTextMessageContent('first')),
-                   InlineQueryResultArticle('12', 'second', InputTextMessageContent('second'))]
+        results = [
+            InlineQueryResultArticle('11', 'first', InputTextMessageContent('first')),
+            InlineQueryResultArticle('12', 'second', InputTextMessageContent('second'))
+        ]
 
         assert bot.answer_inline_query(1234,
                                        results=results,
@@ -207,6 +230,7 @@ class TestBot(object):
 
     # TODO: Needs improvement. No feasable way to test until bots can add members.
     def test_kick_chat_member(self, monkeypatch, bot):
+
         def test(_, url, data, *args, **kwargs):
             chat_id = data['chat_id'] == 2
             user_id = data['user_id'] == 32
@@ -222,6 +246,7 @@ class TestBot(object):
 
     # TODO: Needs improvement.
     def test_unban_chat_member(self, monkeypatch, bot):
+
         def test(_, url, data, *args, **kwargs):
             chat_id = data['chat_id'] == 2
             user_id = data['user_id'] == 32
@@ -235,19 +260,29 @@ class TestBot(object):
     def test_answer_callback_query(self, monkeypatch, bot):
         # For now just test that our internals pass the correct data
         def test(_, url, data, *args, **kwargs):
-            return data == {'callback_query_id': 23, 'show_alert': True, 'url': 'no_url',
-                            'cache_time': 1, 'text': 'answer'}
+            return data == {
+                'callback_query_id': 23,
+                'show_alert': True,
+                'url': 'no_url',
+                'cache_time': 1,
+                'text': 'answer'
+            }
 
         monkeypatch.setattr('telegram.utils.request.Request.post', test)
 
-        assert bot.answer_callback_query(23, text='answer', show_alert=True, url='no_url',
+        assert bot.answer_callback_query(23,
+                                         text='answer',
+                                         show_alert=True,
+                                         url='no_url',
                                          cache_time=1)
 
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_edit_message_text(self, bot, message):
-        message = bot.edit_message_text(text='new_text', chat_id=message.chat_id,
-                                        message_id=message.message_id, parse_mode='HTML',
+        message = bot.edit_message_text(text='new_text',
+                                        chat_id=message.chat_id,
+                                        message_id=message.message_id,
+                                        parse_mode='HTML',
                                         disable_web_page_preview=True)
 
         assert message.text == 'new_text'
@@ -259,7 +294,8 @@ class TestBot(object):
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_edit_message_caption(self, bot, media_message):
-        message = bot.edit_message_caption(caption='new_caption', chat_id=media_message.chat_id,
+        message = bot.edit_message_caption(caption='new_caption',
+                                           chat_id=media_message.chat_id,
                                            message_id=media_message.message_id)
 
         assert message.caption == 'new_caption'
@@ -269,7 +305,8 @@ class TestBot(object):
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_edit_message_caption_with_parse_mode(self, bot, media_message):
-        message = bot.edit_message_caption(caption='new *caption*', parse_mode='Markdown',
+        message = bot.edit_message_caption(caption='new *caption*',
+                                           parse_mode='Markdown',
                                            chat_id=media_message.chat_id,
                                            message_id=media_message.message_id)
 
@@ -392,11 +429,10 @@ class TestBot(object):
         game_short_name = 'python_telegram_bot_test_game'
         game = bot.send_game(chat_id, game_short_name)
 
-        message = bot.set_game_score(
-            user_id=chat_id,
-            score=int(BASE_TIME) - HIGHSCORE_DELTA,
-            chat_id=game.chat_id,
-            message_id=game.message_id)
+        message = bot.set_game_score(user_id=chat_id,
+                                     score=int(BASE_TIME) - HIGHSCORE_DELTA,
+                                     chat_id=game.chat_id,
+                                     message_id=game.message_id)
 
         assert message.game.description == game.game.description
         assert message.game.animation.file_id == game.game.animation.file_id
@@ -413,12 +449,11 @@ class TestBot(object):
 
         score = int(BASE_TIME) - HIGHSCORE_DELTA + 1
 
-        message = bot.set_game_score(
-            user_id=chat_id,
-            score=score,
-            chat_id=game.chat_id,
-            message_id=game.message_id,
-            disable_edit_message=True)
+        message = bot.set_game_score(user_id=chat_id,
+                                     score=score,
+                                     chat_id=game.chat_id,
+                                     message_id=game.message_id,
+                                     disable_edit_message=True)
 
         assert message.game.description == game.game.description
         assert message.game.animation.file_id == game.game.animation.file_id
@@ -436,11 +471,10 @@ class TestBot(object):
         score = int(BASE_TIME) - HIGHSCORE_DELTA - 1
 
         with pytest.raises(BadRequest, match='Bot_score_not_modified'):
-            bot.set_game_score(
-                user_id=chat_id,
-                score=score,
-                chat_id=game.chat_id,
-                message_id=game.message_id)
+            bot.set_game_score(user_id=chat_id,
+                               score=score,
+                               chat_id=game.chat_id,
+                               message_id=game.message_id)
 
     @pytest.mark.skipif(os.getenv('APPVEYOR'), reason='No game made for Appveyor bot (yet)')
     @flaky(3, 1)
@@ -452,12 +486,11 @@ class TestBot(object):
 
         score = int(BASE_TIME) - HIGHSCORE_DELTA - 2
 
-        message = bot.set_game_score(
-            user_id=chat_id,
-            score=score,
-            chat_id=game.chat_id,
-            message_id=game.message_id,
-            force=True)
+        message = bot.set_game_score(user_id=chat_id,
+                                     score=score,
+                                     chat_id=game.chat_id,
+                                     message_id=game.message_id,
+                                     force=True)
 
         assert message.game.description == game.game.description
         assert message.game.animation.file_id == game.game.animation.file_id
@@ -477,8 +510,10 @@ class TestBot(object):
         game = bot.send_game(chat_id, game_short_name)
 
         with pytest.raises(BadRequest):
-            bot.set_game_score(user_id=chat_id, score=100,
-                               chat_id=game.chat_id, message_id=game.message_id)
+            bot.set_game_score(user_id=chat_id,
+                               score=100,
+                               chat_id=game.chat_id,
+                               message_id=game.message_id)
 
     @pytest.mark.skipif(os.getenv('APPVEYOR'), reason='No game made for Appveyor bot (yet)')
     @flaky(3, 1)
@@ -497,10 +532,20 @@ class TestBot(object):
     def test_answer_shipping_query_ok(self, monkeypatch, bot):
         # For now just test that our internals pass the correct data
         def test(_, url, data, *args, **kwargs):
-            return data == {'shipping_query_id': 1, 'ok': True,
-                            'shipping_options': [{'title': 'option1',
-                                                  'prices': [{'label': 'price', 'amount': 100}],
-                                                  'id': 1}]}
+            return data == {
+                'shipping_query_id':
+                    1,
+                'ok':
+                    True,
+                'shipping_options': [{
+                    'title': 'option1',
+                    'prices': [{
+                        'label': 'price',
+                        'amount': 100
+                    }],
+                    'id': 1
+                }]
+            }
 
         monkeypatch.setattr('telegram.utils.request.Request.post', test)
         shipping_options = ShippingOption(1, 'option1', [LabeledPrice('price', 100)])
@@ -509,8 +554,11 @@ class TestBot(object):
     def test_answer_shipping_query_error_message(self, monkeypatch, bot):
         # For now just test that our internals pass the correct data
         def test(_, url, data, *args, **kwargs):
-            return data == {'shipping_query_id': 1, 'error_message': 'Not enough fish',
-                            'ok': False}
+            return data == {
+                'shipping_query_id': 1,
+                'error_message': 'Not enough fish',
+                'ok': False
+            }
 
         monkeypatch.setattr('telegram.utils.request.Request.post', test)
         assert bot.answer_shipping_query(1, False, error_message='Not enough fish')
@@ -542,8 +590,11 @@ class TestBot(object):
     def test_answer_pre_checkout_query_error_message(self, monkeypatch, bot):
         # For now just test that our internals pass the correct data
         def test(_, url, data, *args, **kwargs):
-            return data == {'pre_checkout_query_id': 1, 'error_message': 'Not enough fish',
-                            'ok': False}
+            return data == {
+                'pre_checkout_query_id': 1,
+                'error_message': 'Not enough fish',
+                'ok': False
+            }
 
         monkeypatch.setattr('telegram.utils.request.Request.post', test)
         assert bot.answer_pre_checkout_query(1, False, error_message='Not enough fish')
@@ -628,6 +679,7 @@ class TestBot(object):
     # test_sticker module.
 
     def test_timeout_propagation(self, monkeypatch, bot, chat_id):
+
         class OkException(Exception):
             pass
 

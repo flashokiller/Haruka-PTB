@@ -47,8 +47,14 @@ class InputVenueMessageContent(InputMessageContent):
 
     """
 
-    def __init__(self, latitude, longitude, title, address, foursquare_id=None,
-                 foursquare_type=None, **kwargs):
+    def __init__(self,
+                 latitude,
+                 longitude,
+                 title,
+                 address,
+                 foursquare_id=None,
+                 foursquare_type=None,
+                 **kwargs):
         # Required
         self.latitude = latitude
         self.longitude = longitude

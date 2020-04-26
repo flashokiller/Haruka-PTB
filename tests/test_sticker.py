@@ -160,6 +160,7 @@ class TestSticker(object):
         assert json_sticker.thumb == sticker.thumb
 
     def test_send_with_sticker(self, monkeypatch, bot, chat_id, sticker):
+
         def test(_, url, data, **kwargs):
             return data['sticker'] == sticker.file_id
 
@@ -243,7 +244,7 @@ class TestStickerSet(object):
         assert sticker_set.contains_masks == self.contains_masks
         assert sticker_set.stickers == self.stickers
 
-    @pytest.mark.skipif(os.getenv('APPVEYOR'), reason='No Sticker(set) for Appveyor bot (''yet)')
+    @pytest.mark.skipif(os.getenv('APPVEYOR'), reason='No Sticker(set) for Appveyor bot (' 'yet)')
     def test_sticker_set_to_dict(self, sticker_set):
         sticker_set_dict = sticker_set.to_dict()
 
@@ -253,7 +254,7 @@ class TestStickerSet(object):
         assert sticker_set_dict['contains_masks'] == sticker_set.contains_masks
         assert sticker_set_dict['stickers'][0] == sticker_set.stickers[0].to_dict()
 
-    @pytest.mark.skipif(os.getenv('APPVEYOR'), reason='No Sticker(set) for Appveyor bot (''yet)')
+    @pytest.mark.skipif(os.getenv('APPVEYOR'), reason='No Sticker(set) for Appveyor bot (' 'yet)')
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_bot_methods_1(self, bot, sticker_set):
@@ -262,14 +263,14 @@ class TestStickerSet(object):
         assert file
         assert bot.add_sticker_to_set(95205500, sticker_set.name, file.file_id, '😄')
 
-    @pytest.mark.skipif(os.getenv('APPVEYOR'), reason='No Sticker(set) for Appveyor bot (''yet)')
+    @pytest.mark.skipif(os.getenv('APPVEYOR'), reason='No Sticker(set) for Appveyor bot (' 'yet)')
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_bot_methods_2(self, bot, sticker_set):
         file_id = sticker_set.stickers[0].file_id
         assert bot.set_sticker_position_in_set(file_id, 1)
 
-    @pytest.mark.skipif(os.getenv('APPVEYOR'), reason='No Sticker(set) for Appveyor bot (''yet)')
+    @pytest.mark.skipif(os.getenv('APPVEYOR'), reason='No Sticker(set) for Appveyor bot (' 'yet)')
     @flaky(10, 1)
     @pytest.mark.timeout(10)
     def test_bot_methods_3(self, bot, sticker_set):
@@ -278,6 +279,7 @@ class TestStickerSet(object):
         assert bot.delete_sticker_from_set(file_id)
 
     def test_get_file_instance_method(self, monkeypatch, sticker):
+
         def test(*args, **kwargs):
             return args[1] == sticker.file_id
 
@@ -307,9 +309,7 @@ class TestStickerSet(object):
 
 @pytest.fixture(scope='class')
 def mask_position():
-    return MaskPosition(TestMaskPosition.point,
-                        TestMaskPosition.x_shift,
-                        TestMaskPosition.y_shift,
+    return MaskPosition(TestMaskPosition.point, TestMaskPosition.x_shift, TestMaskPosition.y_shift,
                         TestMaskPosition.scale)
 
 

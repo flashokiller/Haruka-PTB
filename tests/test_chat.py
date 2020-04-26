@@ -25,9 +25,13 @@ from telegram import User
 
 @pytest.fixture(scope='class')
 def chat(bot):
-    return Chat(TestChat.id, TestChat.title, TestChat.type, username=TestChat.username,
+    return Chat(TestChat.id,
+                TestChat.title,
+                TestChat.type,
+                username=TestChat.username,
                 all_members_are_administrators=TestChat.all_members_are_administrators,
-                bot=bot, sticker_set_name=TestChat.sticker_set_name,
+                bot=bot,
+                sticker_set_name=TestChat.sticker_set_name,
                 can_set_sticker_set=TestChat.can_set_sticker_set)
 
 
@@ -76,6 +80,7 @@ class TestChat(object):
         assert chat.link is None
 
     def test_send_action(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             id = args[1] == chat.id
             action = kwargs['action'] == ChatAction.TYPING
@@ -85,6 +90,7 @@ class TestChat(object):
         assert chat.send_action(action=ChatAction.TYPING)
 
     def test_leave(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             return args[1] == chat.id
 
@@ -92,6 +98,7 @@ class TestChat(object):
         assert chat.leave()
 
     def test_get_administrators(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             return args[1] == chat.id
 
@@ -99,6 +106,7 @@ class TestChat(object):
         assert chat.get_administrators()
 
     def test_get_members_count(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             return args[1] == chat.id
 
@@ -106,6 +114,7 @@ class TestChat(object):
         assert chat.get_members_count()
 
     def test_get_member(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             chat_id = args[1] == chat.id
             user_id = args[2] == 42
@@ -115,6 +124,7 @@ class TestChat(object):
         assert chat.get_member(42)
 
     def test_kick_member(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             chat_id = args[1] == chat.id
             user_id = args[2] == 42
@@ -125,6 +135,7 @@ class TestChat(object):
         assert chat.kick_member(42, until_date=43)
 
     def test_unban_member(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             chat_id = args[1] == chat.id
             user_id = args[2] == 42
@@ -134,6 +145,7 @@ class TestChat(object):
         assert chat.unban_member(42)
 
     def test_instance_method_send_message(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             return args[1] == chat.id and args[2] == 'test'
 
@@ -141,6 +153,7 @@ class TestChat(object):
         assert chat.send_message('test')
 
     def test_instance_method_send_photo(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             return args[1] == chat.id and args[2] == 'test_photo'
 
@@ -148,6 +161,7 @@ class TestChat(object):
         assert chat.send_photo('test_photo')
 
     def test_instance_method_send_audio(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             return args[1] == chat.id and args[2] == 'test_audio'
 
@@ -155,6 +169,7 @@ class TestChat(object):
         assert chat.send_audio('test_audio')
 
     def test_instance_method_send_document(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             return args[1] == chat.id and args[2] == 'test_document'
 
@@ -162,6 +177,7 @@ class TestChat(object):
         assert chat.send_document('test_document')
 
     def test_instance_method_send_sticker(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             return args[1] == chat.id and args[2] == 'test_sticker'
 
@@ -169,6 +185,7 @@ class TestChat(object):
         assert chat.send_sticker('test_sticker')
 
     def test_instance_method_send_video(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             return args[1] == chat.id and args[2] == 'test_video'
 
@@ -176,6 +193,7 @@ class TestChat(object):
         assert chat.send_video('test_video')
 
     def test_instance_method_send_video_note(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             return args[1] == chat.id and args[2] == 'test_video_note'
 
@@ -183,6 +201,7 @@ class TestChat(object):
         assert chat.send_video_note('test_video_note')
 
     def test_instance_method_send_voice(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             return args[1] == chat.id and args[2] == 'test_voice'
 
@@ -190,6 +209,7 @@ class TestChat(object):
         assert chat.send_voice('test_voice')
 
     def test_instance_method_send_animation(self, monkeypatch, chat):
+
         def test(*args, **kwargs):
             return args[1] == chat.id and args[2] == 'test_animation'
 

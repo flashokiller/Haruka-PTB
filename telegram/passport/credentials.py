@@ -155,11 +155,9 @@ class EncryptedCredentials(TelegramObject):
             # is the default for OAEP, the algorithm is the default for PHP which is what
             # Telegram's backend servers run.
             try:
-                self._decrypted_secret = self.bot.private_key.decrypt(b64decode(self.secret), OAEP(
-                    mgf=MGF1(algorithm=SHA1()),
-                    algorithm=SHA1(),
-                    label=None
-                ))
+                self._decrypted_secret = self.bot.private_key.decrypt(
+                    b64decode(self.secret),
+                    OAEP(mgf=MGF1(algorithm=SHA1()), algorithm=SHA1(), label=None))
             except ValueError as e:
                 # If decryption fails raise exception
                 raise TelegramDecryptionError(e)
@@ -177,10 +175,9 @@ class EncryptedCredentials(TelegramObject):
                 private/public key but can also suggest malformed/tampered data.
         """
         if self._decrypted_data is None:
-            self._decrypted_data = Credentials.de_json(decrypt_json(self.decrypted_secret,
-                                                                    b64decode(self.hash),
-                                                                    b64decode(self.data)),
-                                                       self.bot)
+            self._decrypted_data = Credentials.de_json(
+                decrypt_json(self.decrypted_secret, b64decode(self.hash), b64decode(self.data)),
+                self.bot)
         return self._decrypted_data
 
 

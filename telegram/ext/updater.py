@@ -125,18 +125,20 @@ class Updater(object):
             if 'con_pool_size' not in request_kwargs:
                 request_kwargs['con_pool_size'] = con_pool_size
             self._request = Request(**request_kwargs)
-            self.bot = Bot(token, base_url, request=self._request, private_key=private_key,
+            self.bot = Bot(token,
+                           base_url,
+                           request=self._request,
+                           private_key=private_key,
                            private_key_password=private_key_password)
         self.user_sig_handler = user_sig_handler
         self.update_queue = Queue()
         self.job_queue = JobQueue(self.bot)
         self.__exception_event = Event()
-        self.dispatcher = Dispatcher(
-            self.bot,
-            self.update_queue,
-            job_queue=self.job_queue,
-            workers=workers,
-            exception_event=self.__exception_event)
+        self.dispatcher = Dispatcher(self.bot,
+                                     self.update_queue,
+                                     job_queue=self.job_queue,
+                                     workers=workers,
+                                     exception_event=self.__exception_event)
         self.last_update_id = 0
         self.running = False
         self.is_idle = False
@@ -275,9 +277,10 @@ class Updater(object):
         self.logger.debug('Bootstrap done')
 
         def polling_action_cb():
-            updates = self.bot.get_updates(
-                self.last_update_id, timeout=timeout, read_latency=read_latency,
-                allowed_updates=allowed_updates)
+            updates = self.bot.get_updates(self.last_update_id,
+                                           timeout=timeout,
+                                           read_latency=read_latency,
+                                           allowed_updates=allowed_updates)
 
             if updates:
                 if not self.running:
@@ -367,12 +370,11 @@ class Updater(object):
             if not webhook_url:
                 webhook_url = self._gen_webhook_url(listen, port, url_path)
 
-            self._bootstrap(
-                max_retries=bootstrap_retries,
-                clean=clean,
-                webhook_url=webhook_url,
-                cert=open(cert, 'rb'),
-                allowed_updates=allowed_updates)
+            self._bootstrap(max_retries=bootstrap_retries,
+                            clean=clean,
+                            webhook_url=webhook_url,
+                            cert=open(cert, 'rb'),
+                            allowed_updates=allowed_updates)
         elif clean:
             self.logger.warning("cleaning updates is not supported if "
                                 "SSL-termination happens elsewhere; skipping")
@@ -382,16 +384,17 @@ class Updater(object):
     def _check_ssl_cert(self, cert, key):
         # Check SSL-Certificate with openssl, if possible
         try:
-            exit_code = subprocess.call(
-                ["openssl", "x509", "-text", "-noout", "-in", cert],
-                stdout=open(os.devnull, 'wb'),
-                stderr=subprocess.STDOUT)
+            exit_code = subprocess.call(["openssl", "x509", "-text", "-noout", "-in", cert],
+                                        stdout=open(os.devnull, 'wb'),
+                                        stderr=subprocess.STDOUT)
         except OSError:
             exit_code = 0
         if exit_code == 0:
             try:
-                self.httpd.socket = ssl.wrap_socket(
-                    self.httpd.socket, certfile=cert, keyfile=key, server_side=True)
+                self.httpd.socket = ssl.wrap_socket(self.httpd.socket,
+                                                    certfile=cert,
+                                                    keyfile=key,
+                                                    server_side=True)
             except ssl.SSLError as error:
                 self.logger.exception('Failed to init SSL socket')
                 raise TelegramError(str(error))
@@ -402,7 +405,12 @@ class Updater(object):
     def _gen_webhook_url(listen, port, url_path):
         return 'https://{listen}:{port}{path}'.format(listen=listen, port=port, path=url_path)
 
-    def _bootstrap(self, max_retries, clean, webhook_url, allowed_updates, cert=None,
+    def _bootstrap(self,
+                   max_retries,
+                   clean,
+                   webhook_url,
+                   allowed_updates,
+                   cert=None,
                    bootstrap_interval=5):
         retries = [0]
 
@@ -418,15 +426,16 @@ class Updater(object):
             return False
 
         def bootstrap_set_webhook():
-            self.bot.set_webhook(
-                url=webhook_url, certificate=cert, allowed_updates=allowed_updates)
+            self.bot.set_webhook(url=webhook_url,
+                                 certificate=cert,
+                                 allowed_updates=allowed_updates)
             return False
 
         def bootstrap_onerr_cb(exc):
             if not isinstance(exc, Unauthorized) and (max_retries < 0 or retries[0] < max_retries):
                 retries[0] += 1
-                self.logger.warning('Failed bootstrap phase; try=%s max_retries=%s',
-                                    retries[0], max_retries)
+                self.logger.warning('Failed bootstrap phase; try=%s max_retries=%s', retries[0],
+                                    max_retries)
             else:
                 self.logger.error('Failed bootstrap phase after %s retries (%s)', retries[0], exc)
                 raise exc

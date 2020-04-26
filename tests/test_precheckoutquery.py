@@ -69,13 +69,14 @@ class TestPreCheckoutQuery(object):
         assert isinstance(pre_checkout_query_dict, dict)
         assert pre_checkout_query_dict['id'] == pre_checkout_query.id
         assert pre_checkout_query_dict['invoice_payload'] == pre_checkout_query.invoice_payload
-        assert (pre_checkout_query_dict['shipping_option_id'] ==
-                pre_checkout_query.shipping_option_id)
+        assert (
+            pre_checkout_query_dict['shipping_option_id'] == pre_checkout_query.shipping_option_id)
         assert pre_checkout_query_dict['currency'] == pre_checkout_query.currency
         assert pre_checkout_query_dict['from'] == pre_checkout_query.from_user.to_dict()
         assert pre_checkout_query_dict['order_info'] == pre_checkout_query.order_info.to_dict()
 
     def test_answer(self, monkeypatch, pre_checkout_query):
+
         def test(*args, **kwargs):
             return args[1] == pre_checkout_query.id
 

@@ -38,9 +38,19 @@ class PersonalDetails(TelegramObject):
         last_name (:obj:`str`): Last Name in the language of the user's country of residence.
     """
 
-    def __init__(self, first_name, last_name, birth_date, gender, country_code,
-                 residence_country_code, first_name_native, last_name_native, middle_name=None,
-                 middle_name_native=None, bot=None, **kwargs):
+    def __init__(self,
+                 first_name,
+                 last_name,
+                 birth_date,
+                 gender,
+                 country_code,
+                 residence_country_code,
+                 first_name_native,
+                 last_name_native,
+                 middle_name=None,
+                 middle_name_native=None,
+                 bot=None,
+                 **kwargs):
         # Required
         self.first_name = first_name
         self.last_name = last_name
@@ -76,8 +86,15 @@ class ResidentialAddress(TelegramObject):
         post_code (:obj:`str`): Address post code.
     """
 
-    def __init__(self, street_line1, street_line2, city, state, country_code,
-                 post_code, bot=None, **kwargs):
+    def __init__(self,
+                 street_line1,
+                 street_line2,
+                 city,
+                 state,
+                 country_code,
+                 post_code,
+                 bot=None,
+                 **kwargs):
         # Required
         self.street_line1 = street_line1
         self.street_line2 = street_line2

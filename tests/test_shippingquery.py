@@ -61,6 +61,7 @@ class TestShippingQuery(object):
         assert shipping_query_dict['shipping_address'] == shipping_query.shipping_address.to_dict()
 
     def test_answer(self, monkeypatch, shipping_query):
+
         def test(*args, **kwargs):
             return args[1] == shipping_query.id
 

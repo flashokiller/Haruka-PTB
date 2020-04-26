@@ -106,8 +106,7 @@ class RegexHandler(Handler):
                  allow_edited=False,
                  message_updates=True,
                  channel_post_updates=False,
-                 edited_updates=False
-                 ):
+                 edited_updates=False):
         if not message_updates and not channel_post_updates and not edited_updates:
             raise ValueError(
                 'message_updates, channel_post_updates and edited_updates are all False')
@@ -115,12 +114,11 @@ class RegexHandler(Handler):
             warnings.warn('allow_edited is getting deprecated, please use edited_updates instead')
             edited_updates = allow_edited
 
-        super(RegexHandler, self).__init__(
-            callback,
-            pass_update_queue=pass_update_queue,
-            pass_job_queue=pass_job_queue,
-            pass_user_data=pass_user_data,
-            pass_chat_data=pass_chat_data)
+        super(RegexHandler, self).__init__(callback,
+                                           pass_update_queue=pass_update_queue,
+                                           pass_job_queue=pass_job_queue,
+                                           pass_user_data=pass_user_data,
+                                           pass_chat_data=pass_chat_data)
 
         if isinstance(pattern, string_types):
             pattern = re.compile(pattern)

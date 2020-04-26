@@ -60,8 +60,8 @@ def check_method(h4):
     checked = []
     for parameter in table:
         param = sig.parameters.get(parameter[0])
-        assert param is not None, "Parameter {} not found in {}".format(parameter[0],
-                                                                        method.__name__)
+        assert param is not None, "Parameter {} not found in {}".format(
+            parameter[0], method.__name__)
         # TODO: Check type via docstring
         # TODO: Check if optional or required
         checked.append(parameter[0])
@@ -96,8 +96,8 @@ def check_object(h4):
         field = parameter[0]
         if field == 'from':
             field = 'from_user'
-        elif ((name.startswith('InlineQueryResult') or
-               name.startswith('InputMedia')) and field == 'type'):
+        elif ((name.startswith('InlineQueryResult') or name.startswith('InputMedia'))
+              and field == 'type'):
             continue
         elif name.startswith('PassportElementError') and field == 'source':
             continue
@@ -127,9 +127,7 @@ def check_object(h4):
 
 argvalues = []
 names = []
-http = urllib3.PoolManager(
-    cert_reqs='CERT_REQUIRED',
-    ca_certs=certifi.where())
+http = urllib3.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=certifi.where())
 request = http.request('GET', 'https://core.telegram.org/bots/api')
 soup = BeautifulSoup(request.data.decode('utf-8'), 'html.parser')
 

@@ -24,21 +24,29 @@ from telegram.ext import InlineQueryHandler
 
 message = Message(1, User(1, '', False), None, Chat(1, ''), text='Text')
 
-params = [
-    {'message': message},
-    {'edited_message': message},
-    {'callback_query': CallbackQuery(1, User(1, '', False), 'chat', message=message)},
-    {'channel_post': message},
-    {'edited_channel_post': message},
-    {'chosen_inline_result': ChosenInlineResult('id', User(1, '', False), '')},
-    {'shipping_query': ShippingQuery('id', User(1, '', False), '', None)},
-    {'pre_checkout_query': PreCheckoutQuery('id', User(1, '', False), '', 0, '')},
-    {'callback_query': CallbackQuery(1, User(1, '', False), 'chat')}
-]
+params = [{
+    'message': message
+}, {
+    'edited_message': message
+}, {
+    'callback_query': CallbackQuery(1, User(1, '', False), 'chat', message=message)
+}, {
+    'channel_post': message
+}, {
+    'edited_channel_post': message
+}, {
+    'chosen_inline_result': ChosenInlineResult('id', User(1, '', False), '')
+}, {
+    'shipping_query': ShippingQuery('id', User(1, '', False), '', None)
+}, {
+    'pre_checkout_query': PreCheckoutQuery('id', User(1, '', False), '', 0, '')
+}, {
+    'callback_query': CallbackQuery(1, User(1, '', False), 'chat')
+}]
 
-ids = ('message', 'edited_message', 'callback_query', 'channel_post',
-       'edited_channel_post', 'chosen_inline_result',
-       'shipping_query', 'pre_checkout_query', 'callback_query_without_message')
+ids = ('message', 'edited_message', 'callback_query', 'channel_post', 'edited_channel_post',
+       'chosen_inline_result', 'shipping_query', 'pre_checkout_query',
+       'callback_query_without_message')
 
 
 @pytest.fixture(scope='class', params=params, ids=ids)
@@ -48,10 +56,13 @@ def false_update(request):
 
 @pytest.fixture(scope='function')
 def inline_query(bot):
-    return Update(0, inline_query=InlineQuery('id', User(2, 'test user', False),
-                                              'test query', offset='22',
-                                              location=Location(latitude=-23.691288,
-                                                                longitude=-46.788279)))
+    return Update(0,
+                  inline_query=InlineQuery('id',
+                                           User(2, 'test user', False),
+                                           'test query',
+                                           offset='22',
+                                           location=Location(latitude=-23.691288,
+                                                             longitude=-46.788279)))
 
 
 class TestCallbackQueryHandler(object):
@@ -136,7 +147,8 @@ class TestCallbackQueryHandler(object):
         assert self.test_flag
 
         dp.remove_handler(handler)
-        handler = InlineQueryHandler(self.callback_data_2, pass_chat_data=True,
+        handler = InlineQueryHandler(self.callback_data_2,
+                                     pass_chat_data=True,
                                      pass_user_data=True)
         dp.add_handler(handler)
 
@@ -160,7 +172,8 @@ class TestCallbackQueryHandler(object):
         assert self.test_flag
 
         dp.remove_handler(handler)
-        handler = InlineQueryHandler(self.callback_queue_2, pass_job_queue=True,
+        handler = InlineQueryHandler(self.callback_queue_2,
+                                     pass_job_queue=True,
                                      pass_update_queue=True)
         dp.add_handler(handler)
 

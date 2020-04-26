@@ -145,5 +145,6 @@ class Game(TelegramObject):
 
         return {
             entity: self.parse_text_entity(entity)
-            for entity in self.text_entities if entity.type in types
+            for entity in self.text_entities
+            if entity.type in types
         }

@@ -24,22 +24,31 @@ from telegram.ext import StringRegexHandler
 
 message = Message(1, User(1, '', False), None, Chat(1, ''), text='Text')
 
-params = [
-    {'message': message},
-    {'edited_message': message},
-    {'callback_query': CallbackQuery(1, User(1, '', False), 'chat', message=message)},
-    {'channel_post': message},
-    {'edited_channel_post': message},
-    {'inline_query': InlineQuery(1, User(1, '', False), '', '')},
-    {'chosen_inline_result': ChosenInlineResult('id', User(1, '', False), '')},
-    {'shipping_query': ShippingQuery('id', User(1, '', False), '', None)},
-    {'pre_checkout_query': PreCheckoutQuery('id', User(1, '', False), '', 0, '')},
-    {'callback_query': CallbackQuery(1, User(1, '', False), 'chat')}
-]
+params = [{
+    'message': message
+}, {
+    'edited_message': message
+}, {
+    'callback_query': CallbackQuery(1, User(1, '', False), 'chat', message=message)
+}, {
+    'channel_post': message
+}, {
+    'edited_channel_post': message
+}, {
+    'inline_query': InlineQuery(1, User(1, '', False), '', '')
+}, {
+    'chosen_inline_result': ChosenInlineResult('id', User(1, '', False), '')
+}, {
+    'shipping_query': ShippingQuery('id', User(1, '', False), '', None)
+}, {
+    'pre_checkout_query': PreCheckoutQuery('id', User(1, '', False), '', 0, '')
+}, {
+    'callback_query': CallbackQuery(1, User(1, '', False), 'chat')
+}]
 
-ids = ('message', 'edited_message', 'callback_query', 'channel_post',
-       'edited_channel_post', 'inline_query', 'chosen_inline_result',
-       'shipping_query', 'pre_checkout_query', 'callback_query_without_message')
+ids = ('message', 'edited_message', 'callback_query', 'channel_post', 'edited_channel_post',
+       'inline_query', 'chosen_inline_result', 'shipping_query', 'pre_checkout_query',
+       'callback_query_without_message')
 
 
 @pytest.fixture(scope='class', params=params, ids=ids)
@@ -82,7 +91,8 @@ class TestStringRegexHandler(object):
         assert not handler.check_update('does not match')
 
     def test_with_passing_group_dict(self, dp):
-        handler = StringRegexHandler('(?P<begin>.*)est(?P<end>.*)', self.callback_group,
+        handler = StringRegexHandler('(?P<begin>.*)est(?P<end>.*)',
+                                     self.callback_group,
                                      pass_groups=True)
         dp.add_handler(handler)
 
@@ -90,7 +100,8 @@ class TestStringRegexHandler(object):
         assert self.test_flag
 
         dp.remove_handler(handler)
-        handler = StringRegexHandler('(?P<begin>.*)est(?P<end>.*)', self.callback_group,
+        handler = StringRegexHandler('(?P<begin>.*)est(?P<end>.*)',
+                                     self.callback_group,
                                      pass_groupdict=True)
         dp.add_handler(handler)
 
@@ -114,7 +125,9 @@ class TestStringRegexHandler(object):
         assert self.test_flag
 
         dp.remove_handler(handler)
-        handler = StringRegexHandler('test', self.callback_queue_2, pass_job_queue=True,
+        handler = StringRegexHandler('test',
+                                     self.callback_queue_2,
+                                     pass_job_queue=True,
                                      pass_update_queue=True)
         dp.add_handler(handler)
 

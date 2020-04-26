@@ -63,9 +63,13 @@ class TestDocument(object):
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_send_all_args(self, bot, chat_id, document_file, document, thumb_file):
-        message = bot.send_document(chat_id, document=document_file, caption=self.caption,
-                                    disable_notification=False, filename='telegram_custom.png',
-                                    parse_mode='Markdown', thumb=thumb_file)
+        message = bot.send_document(chat_id,
+                                    document=document_file,
+                                    caption=self.caption,
+                                    disable_notification=False,
+                                    filename='telegram_custom.png',
+                                    parse_mode='Markdown',
+                                    thumb=thumb_file)
 
         assert isinstance(message.document, Document)
         assert isinstance(message.document.file_id, str)
@@ -114,6 +118,7 @@ class TestDocument(object):
         assert message.document == document
 
     def test_send_with_document(self, monkeypatch, bot, chat_id, document):
+
         def test(_, url, data, **kwargs):
             return data['document'] == document.file_id
 
@@ -124,12 +129,13 @@ class TestDocument(object):
         assert message
 
     def test_de_json(self, bot, document):
-        json_dict = {'file_id': 'not a file id',
-                     'thumb': document.thumb.to_dict(),
-                     'file_name': self.file_name,
-                     'mime_type': self.mime_type,
-                     'file_size': self.file_size
-                     }
+        json_dict = {
+            'file_id': 'not a file id',
+            'thumb': document.thumb.to_dict(),
+            'file_name': self.file_name,
+            'mime_type': self.mime_type,
+            'file_size': self.file_size
+        }
         test_document = Document.de_json(json_dict, bot)
 
         assert test_document.file_id == 'not a file id'
@@ -165,6 +171,7 @@ class TestDocument(object):
             bot.send_document(chat_id=chat_id)
 
     def test_get_file_instance_method(self, monkeypatch, document):
+
         def test(*args, **kwargs):
             return args[1] == document.file_id
 

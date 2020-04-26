@@ -85,8 +85,8 @@ class TestInlineQueryResultMpeg4Gif(object):
         assert (inline_query_result_mpeg4_gif_dict['thumb_url'] ==
                 inline_query_result_mpeg4_gif.thumb_url)
         assert inline_query_result_mpeg4_gif_dict['title'] == inline_query_result_mpeg4_gif.title
-        assert (inline_query_result_mpeg4_gif_dict['caption'] ==
-                inline_query_result_mpeg4_gif.caption)
+        assert (
+            inline_query_result_mpeg4_gif_dict['caption'] == inline_query_result_mpeg4_gif.caption)
         assert (inline_query_result_mpeg4_gif_dict['parse_mode'] ==
                 inline_query_result_mpeg4_gif.parse_mode)
         assert (inline_query_result_mpeg4_gif_dict['input_message_content'] ==

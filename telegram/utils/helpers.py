@@ -24,9 +24,11 @@ import signal
 from datetime import datetime
 
 # From https://stackoverflow.com/questions/2549939/get-signal-names-from-numbers-in-python
-_signames = {v: k
-             for k, v in reversed(sorted(vars(signal).items()))
-             if k.startswith('SIG') and not k.startswith('SIG_')}
+_signames = {
+    v: k
+    for k, v in reversed(sorted(vars(signal).items()))
+    if k.startswith('SIG') and not k.startswith('SIG_')
+}
 
 
 def get_signal_name(signum):

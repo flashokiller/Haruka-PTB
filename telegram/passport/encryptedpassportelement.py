@@ -166,8 +166,8 @@ class EncryptedPassportElement(TelegramObject):
                                                 b64decode(data['data']))
                 if data['type'] == 'personal_details':
                     data['data'] = PersonalDetails.de_json(data['data'], bot=bot)
-                elif data['type'] in ('passport', 'internal_passport',
-                                      'driver_license', 'identity_card'):
+                elif data['type'] in ('passport', 'internal_passport', 'driver_license',
+                                      'identity_card'):
                     data['data'] = IdDocumentData.de_json(data['data'], bot=bot)
                 elif data['type'] == 'address':
                     data['data'] = ResidentialAddress.de_json(data['data'], bot=bot)

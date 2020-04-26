@@ -37,6 +37,7 @@ def _lstrip_str(in_s, lstr):
 
 
 class TelegramError(Exception):
+
     def __init__(self, message):
         super(TelegramError, self).__init__()
 

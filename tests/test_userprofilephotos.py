@@ -21,22 +21,13 @@ from telegram import PhotoSize, UserProfilePhotos
 
 class TestUserProfilePhotos(object):
     total_count = 2
-    photos = [
-        [
-            PhotoSize('file_id1', 512, 512),
-            PhotoSize('file_id2', 512, 512)
-        ],
-        [
-            PhotoSize('file_id3', 512, 512),
-            PhotoSize('file_id4', 512, 512)
-        ]
-    ]
+    photos = [[PhotoSize('file_id1', 512, 512),
+               PhotoSize('file_id2', 512, 512)],
+              [PhotoSize('file_id3', 512, 512),
+               PhotoSize('file_id4', 512, 512)]]
 
     def test_de_json(self, bot):
-        json_dict = {
-            'total_count': 2,
-            'photos': [[y.to_dict() for y in x] for x in self.photos]
-        }
+        json_dict = {'total_count': 2, 'photos': [[y.to_dict() for y in x] for x in self.photos]}
         user_profile_photos = UserProfilePhotos.de_json(json_dict, bot)
         assert user_profile_photos.total_count == self.total_count
         assert user_profile_photos.photos == self.photos

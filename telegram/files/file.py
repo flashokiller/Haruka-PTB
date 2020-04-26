@@ -109,8 +109,7 @@ class File(TelegramObject):
             buf = self.bot.request.retrieve(url)
             if self._credentials:
                 buf = decrypt(b64decode(self._credentials.secret),
-                              b64decode(self._credentials.hash),
-                              buf)
+                              b64decode(self._credentials.hash), buf)
             out.write(buf)
             return out
         else:
@@ -122,8 +121,7 @@ class File(TelegramObject):
             buf = self.bot.request.retrieve(url, timeout=timeout)
             if self._credentials:
                 buf = decrypt(b64decode(self._credentials.secret),
-                              b64decode(self._credentials.hash),
-                              buf)
+                              b64decode(self._credentials.hash), buf)
             with open(filename, 'wb') as fobj:
                 fobj.write(buf)
             return filename
@@ -131,8 +129,9 @@ class File(TelegramObject):
     def _get_encoded_url(self):
         """Convert any UTF-8 char in :obj:`File.file_path` into a url encoded ASCII string."""
         sres = urllib_parse.urlsplit(self.file_path)
-        return urllib_parse.urlunsplit(urllib_parse.SplitResult(
-            sres.scheme, sres.netloc, urllib_parse.quote(sres.path), sres.query, sres.fragment))
+        return urllib_parse.urlunsplit(
+            urllib_parse.SplitResult(sres.scheme, sres.netloc, urllib_parse.quote(sres.path),
+                                     sres.query, sres.fragment))
 
     def download_as_bytearray(self, buf=None):
         """Download this file and return it as a bytearray.

@@ -33,7 +33,9 @@ def animation_file():
 @pytest.fixture(scope='class')
 def animation(bot, chat_id):
     with open('tests/data/game.gif', 'rb') as f:
-        return bot.send_animation(chat_id, animation=f, timeout=50,
+        return bot.send_animation(chat_id,
+                                  animation=f,
+                                  timeout=50,
                                   thumb=open('tests/data/thumb.jpg', 'rb')).animation
 
 
@@ -61,10 +63,16 @@ class TestAnimation(object):
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_send_all_args(self, bot, chat_id, animation_file, animation, thumb_file):
-        message = bot.send_animation(chat_id, animation_file, duration=self.duration,
-                                     width=self.width, height=self.height, caption=self.caption,
-                                     parse_mode='Markdown', disable_notification=False,
-                                     filename=self.file_name, thumb=thumb_file)
+        message = bot.send_animation(chat_id,
+                                     animation_file,
+                                     duration=self.duration,
+                                     width=self.width,
+                                     height=self.height,
+                                     caption=self.caption,
+                                     parse_mode='Markdown',
+                                     disable_notification=False,
+                                     filename=self.file_name,
+                                     thumb=thumb_file)
 
         assert isinstance(message.animation, Animation)
         assert isinstance(message.animation.file_id, str)

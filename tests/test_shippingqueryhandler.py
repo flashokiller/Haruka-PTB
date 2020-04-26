@@ -25,21 +25,29 @@ from telegram.ext import ShippingQueryHandler
 
 message = Message(1, User(1, '', False), None, Chat(1, ''), text='Text')
 
-params = [
-    {'message': message},
-    {'edited_message': message},
-    {'callback_query': CallbackQuery(1, User(1, '', False), 'chat', message=message)},
-    {'channel_post': message},
-    {'edited_channel_post': message},
-    {'inline_query': InlineQuery(1, User(1, '', False), '', '')},
-    {'chosen_inline_result': ChosenInlineResult('id', User(1, '', False), '')},
-    {'pre_checkout_query': PreCheckoutQuery('id', User(1, '', False), '', 0, '')},
-    {'callback_query': CallbackQuery(1, User(1, '', False), 'chat')}
-]
+params = [{
+    'message': message
+}, {
+    'edited_message': message
+}, {
+    'callback_query': CallbackQuery(1, User(1, '', False), 'chat', message=message)
+}, {
+    'channel_post': message
+}, {
+    'edited_channel_post': message
+}, {
+    'inline_query': InlineQuery(1, User(1, '', False), '', '')
+}, {
+    'chosen_inline_result': ChosenInlineResult('id', User(1, '', False), '')
+}, {
+    'pre_checkout_query': PreCheckoutQuery('id', User(1, '', False), '', 0, '')
+}, {
+    'callback_query': CallbackQuery(1, User(1, '', False), 'chat')
+}]
 
-ids = ('message', 'edited_message', 'callback_query', 'channel_post',
-       'edited_channel_post', 'inline_query', 'chosen_inline_result',
-       'pre_checkout_query', 'callback_query_without_message')
+ids = ('message', 'edited_message', 'callback_query', 'channel_post', 'edited_channel_post',
+       'inline_query', 'chosen_inline_result', 'pre_checkout_query',
+       'callback_query_without_message')
 
 
 @pytest.fixture(scope='class', params=params, ids=ids)
@@ -50,9 +58,9 @@ def false_update(request):
 @pytest.fixture(scope='class')
 def shiping_query():
     return Update(1,
-                  shipping_query=ShippingQuery(42, User(1, 'test user', False), 'invoice_payload',
-                                               ShippingAddress('EN', 'my_state', 'my_city',
-                                                               'steer_1', '', 'post_code')))
+                  shipping_query=ShippingQuery(
+                      42, User(1, 'test user', False), 'invoice_payload',
+                      ShippingAddress('EN', 'my_state', 'my_city', 'steer_1', '', 'post_code')))
 
 
 class TestShippingQueryHandler(object):
@@ -103,7 +111,8 @@ class TestShippingQueryHandler(object):
         assert self.test_flag
 
         dp.remove_handler(handler)
-        handler = ShippingQueryHandler(self.callback_data_2, pass_chat_data=True,
+        handler = ShippingQueryHandler(self.callback_data_2,
+                                       pass_chat_data=True,
                                        pass_user_data=True)
         dp.add_handler(handler)
 
@@ -127,7 +136,8 @@ class TestShippingQueryHandler(object):
         assert self.test_flag
 
         dp.remove_handler(handler)
-        handler = ShippingQueryHandler(self.callback_queue_2, pass_job_queue=True,
+        handler = ShippingQueryHandler(self.callback_queue_2,
+                                       pass_job_queue=True,
                                        pass_update_queue=True)
         dp.add_handler(handler)
 

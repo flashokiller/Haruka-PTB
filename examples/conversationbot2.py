@@ -31,8 +31,7 @@ logger = logging.getLogger(__name__)
 
 CHOOSING, TYPING_REPLY, TYPING_CHOICE = range(3)
 
-reply_keyboard = [['Age', 'Favourite colour'],
-                  ['Number of siblings', 'Something else...'],
+reply_keyboard = [['Age', 'Favourite colour'], ['Number of siblings', 'Something else...'],
                   ['Done']]
 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
 
@@ -58,8 +57,8 @@ def start(bot, update):
 def regular_choice(bot, update, user_data):
     text = update.message.text
     user_data['choice'] = text
-    update.message.reply_text(
-        'Your {}? Yes, I would love to hear about that!'.format(text.lower()))
+    update.message.reply_text('Your {}? Yes, I would love to hear about that!'.format(
+        text.lower()))
 
     return TYPING_REPLY
 
@@ -80,7 +79,8 @@ def received_information(bot, update, user_data):
     update.message.reply_text("Neat! Just so you know, this is what you already told me:"
                               "{}"
                               "You can tell me more, or change your opinion on something.".format(
-                                  facts_to_str(user_data)), reply_markup=markup)
+                                  facts_to_str(user_data)),
+                              reply_markup=markup)
 
     return CHOOSING
 
@@ -112,28 +112,19 @@ def main():
     # Add conversation handler with the states GENDER, PHOTO, LOCATION and BIO
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
-
         states={
-            CHOOSING: [RegexHandler('^(Age|Favourite colour|Number of siblings)$',
-                                    regular_choice,
-                                    pass_user_data=True),
-                       RegexHandler('^Something else...$',
-                                    custom_choice),
-                       ],
-
-            TYPING_CHOICE: [MessageHandler(Filters.text,
-                                           regular_choice,
-                                           pass_user_data=True),
-                            ],
-
-            TYPING_REPLY: [MessageHandler(Filters.text,
-                                          received_information,
-                                          pass_user_data=True),
-                           ],
+            CHOOSING: [
+                RegexHandler('^(Age|Favourite colour|Number of siblings)$',
+                             regular_choice,
+                             pass_user_data=True),
+                RegexHandler('^Something else...$', custom_choice),
+            ],
+            TYPING_CHOICE: [MessageHandler(Filters.text, regular_choice, pass_user_data=True),],
+            TYPING_REPLY: [
+                MessageHandler(Filters.text, received_information, pass_user_data=True),
+            ],
         },
-
-        fallbacks=[RegexHandler('^Done$', done, pass_user_data=True)]
-    )
+        fallbacks=[RegexHandler('^Done$', done, pass_user_data=True)])
 
     dp.add_handler(conv_handler)
 

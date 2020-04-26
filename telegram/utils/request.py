@@ -82,26 +82,24 @@ class Request(object):
         self._connect_timeout = connect_timeout
 
         sockopts = HTTPConnection.default_socket_options + [
-            (socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)]
+            (socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+        ]
 
         # TODO: Support other platforms like mac and windows.
         if 'linux' in sys.platform:
-            sockopts.append((socket.IPPROTO_TCP,
-                             socket.TCP_KEEPIDLE, 120))  # pylint: disable=no-member
-            sockopts.append((socket.IPPROTO_TCP,
-                             socket.TCP_KEEPINTVL, 30))  # pylint: disable=no-member
-            sockopts.append((socket.IPPROTO_TCP,
-                             socket.TCP_KEEPCNT, 8))  # pylint: disable=no-member
+            sockopts.append((socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 120))  # pylint: disable=no-member
+            sockopts.append((socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, 30))  # pylint: disable=no-member
+            sockopts.append((socket.IPPROTO_TCP, socket.TCP_KEEPCNT, 8))  # pylint: disable=no-member
 
         self._con_pool_size = con_pool_size
 
-        kwargs = dict(
-            maxsize=con_pool_size,
-            cert_reqs='CERT_REQUIRED',
-            ca_certs=certifi.where(),
-            socket_options=sockopts,
-            timeout=urllib3.Timeout(
-                connect=self._connect_timeout, read=read_timeout, total=None))
+        kwargs = dict(maxsize=con_pool_size,
+                      cert_reqs='CERT_REQUIRED',
+                      ca_certs=certifi.where(),
+                      socket_options=sockopts,
+                      timeout=urllib3.Timeout(connect=self._connect_timeout,
+                                              read=read_timeout,
+                                              total=None))
 
         # Set a proxy according to the following order:
         # * proxy defined in proxy_url (+ urllib3_proxy_kwargs)
@@ -156,8 +154,7 @@ class Request(object):
             decoded_s = json_data.decode('utf-8')
             data = json.loads(decoded_s)
         except UnicodeDecodeError:
-            logging.getLogger(__name__).debug(
-                'Logging raw invalid UTF-8 response:\n%r', json_data)
+            logging.getLogger(__name__).debug('Logging raw invalid UTF-8 response:\n%r', json_data)
             raise TelegramError('Server response could not be decoded using UTF-8')
         except ValueError:
             raise TelegramError('Invalid server response')
@@ -304,7 +301,8 @@ class Request(object):
         if files:
             result = self._request_wrapper('POST', url, fields=data, **urlopen_kwargs)
         else:
-            result = self._request_wrapper('POST', url,
+            result = self._request_wrapper('POST',
+                                           url,
                                            body=json.dumps(data).encode('utf-8'),
                                            headers={'Content-Type': 'application/json'})
 

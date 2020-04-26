@@ -60,6 +60,6 @@ class TestInputFile(object):
         assert InputFile(BytesIO(b'blah'), filename='tg.mp3').mimetype == 'audio/mpeg'
 
         # Test fallback
-        assert (InputFile(BytesIO(b'blah'), filename='tg.notaproperext').mimetype ==
-                'application/octet-stream')
+        assert (InputFile(BytesIO(b'blah'),
+                          filename='tg.notaproperext').mimetype == 'application/octet-stream')
         assert InputFile(BytesIO(b'blah')).mimetype == 'application/octet-stream'

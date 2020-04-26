@@ -25,17 +25,22 @@ from telegram.ext import Filters, MessageHandler
 
 message = Message(1, User(1, '', False), None, Chat(1, ''), text='Text')
 
-params = [
-    {'callback_query': CallbackQuery(1, User(1, '', False), 'chat', message=message)},
-    {'inline_query': InlineQuery(1, User(1, '', False), '', '')},
-    {'chosen_inline_result': ChosenInlineResult('id', User(1, '', False), '')},
-    {'shipping_query': ShippingQuery('id', User(1, '', False), '', None)},
-    {'pre_checkout_query': PreCheckoutQuery('id', User(1, '', False), '', 0, '')},
-    {'callback_query': CallbackQuery(1, User(1, '', False), 'chat')}
-]
+params = [{
+    'callback_query': CallbackQuery(1, User(1, '', False), 'chat', message=message)
+}, {
+    'inline_query': InlineQuery(1, User(1, '', False), '', '')
+}, {
+    'chosen_inline_result': ChosenInlineResult('id', User(1, '', False), '')
+}, {
+    'shipping_query': ShippingQuery('id', User(1, '', False), '', None)
+}, {
+    'pre_checkout_query': PreCheckoutQuery('id', User(1, '', False), '', 0, '')
+}, {
+    'callback_query': CallbackQuery(1, User(1, '', False), 'chat')
+}]
 
-ids = ('callback_query', 'inline_query', 'chosen_inline_result',
-       'shipping_query', 'pre_checkout_query', 'callback_query_without_message')
+ids = ('callback_query', 'inline_query', 'chosen_inline_result', 'shipping_query',
+       'pre_checkout_query', 'callback_query_without_message')
 
 
 @pytest.fixture(scope='class', params=params, ids=ids)
@@ -81,8 +86,11 @@ class TestMessageHandler(object):
         assert self.test_flag
 
     def test_edited(self, message):
-        handler = MessageHandler(None, self.callback_basic, edited_updates=True,
-                                 message_updates=False, channel_post_updates=False)
+        handler = MessageHandler(None,
+                                 self.callback_basic,
+                                 edited_updates=True,
+                                 message_updates=False,
+                                 channel_post_updates=False)
 
         assert handler.check_update(Update(0, edited_message=message))
         assert not handler.check_update(Update(0, message=message))
@@ -90,8 +98,11 @@ class TestMessageHandler(object):
         assert handler.check_update(Update(0, edited_channel_post=message))
 
     def test_channel_post(self, message):
-        handler = MessageHandler(None, self.callback_basic, edited_updates=False,
-                                 message_updates=False, channel_post_updates=True)
+        handler = MessageHandler(None,
+                                 self.callback_basic,
+                                 edited_updates=False,
+                                 message_updates=False,
+                                 channel_post_updates=True)
 
         assert not handler.check_update(Update(0, edited_message=message))
         assert not handler.check_update(Update(0, message=message))
@@ -99,8 +110,11 @@ class TestMessageHandler(object):
         assert not handler.check_update(Update(0, edited_channel_post=message))
 
     def test_multiple_flags(self, message):
-        handler = MessageHandler(None, self.callback_basic, edited_updates=True,
-                                 message_updates=True, channel_post_updates=True)
+        handler = MessageHandler(None,
+                                 self.callback_basic,
+                                 edited_updates=True,
+                                 message_updates=True,
+                                 channel_post_updates=True)
 
         assert handler.check_update(Update(0, edited_message=message))
         assert handler.check_update(Update(0, message=message))
@@ -109,8 +123,11 @@ class TestMessageHandler(object):
 
     def test_allow_edited(self, message):
         with pytest.warns(UserWarning):
-            handler = MessageHandler(None, self.callback_basic, message_updates=True,
-                                     allow_edited=True, channel_post_updates=False)
+            handler = MessageHandler(None,
+                                     self.callback_basic,
+                                     message_updates=True,
+                                     allow_edited=True,
+                                     channel_post_updates=False)
 
         assert handler.check_update(Update(0, edited_message=message))
         assert handler.check_update(Update(0, message=message))
@@ -119,8 +136,11 @@ class TestMessageHandler(object):
 
     def test_none_allowed(self):
         with pytest.raises(ValueError, match='are all False'):
-            MessageHandler(None, self.callback_basic, message_updates=False,
-                           channel_post_updates=False, edited_updates=False)
+            MessageHandler(None,
+                           self.callback_basic,
+                           message_updates=False,
+                           channel_post_updates=False,
+                           edited_updates=False)
 
     def test_with_filter(self, message):
         handler = MessageHandler(Filters.command, self.callback_basic)
@@ -147,7 +167,9 @@ class TestMessageHandler(object):
         assert self.test_flag
 
         dp.remove_handler(handler)
-        handler = MessageHandler(None, self.callback_data_2, pass_chat_data=True,
+        handler = MessageHandler(None,
+                                 self.callback_data_2,
+                                 pass_chat_data=True,
                                  pass_user_data=True)
         dp.add_handler(handler)
 
@@ -171,7 +193,9 @@ class TestMessageHandler(object):
         assert self.test_flag
 
         dp.remove_handler(handler)
-        handler = MessageHandler(None, self.callback_queue_2, pass_job_queue=True,
+        handler = MessageHandler(None,
+                                 self.callback_queue_2,
+                                 pass_job_queue=True,
                                  pass_update_queue=True)
         dp.add_handler(handler)
 

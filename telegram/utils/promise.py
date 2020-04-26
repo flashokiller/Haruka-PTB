@@ -21,7 +21,6 @@
 import logging
 from threading import Event
 
-
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 

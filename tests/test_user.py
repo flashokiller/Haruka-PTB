@@ -35,9 +35,13 @@ def json_dict():
 
 @pytest.fixture(scope='function')
 def user(bot):
-    return User(id=TestUser.id, first_name=TestUser.first_name, is_bot=TestUser.is_bot,
-                last_name=TestUser.last_name, username=TestUser.username,
-                language_code=TestUser.language_code, bot=bot)
+    return User(id=TestUser.id,
+                first_name=TestUser.first_name,
+                is_bot=TestUser.is_bot,
+                last_name=TestUser.last_name,
+                username=TestUser.username,
+                language_code=TestUser.language_code,
+                bot=bot)
 
 
 class TestUser(object):
@@ -103,6 +107,7 @@ class TestUser(object):
         assert user.link is None
 
     def test_get_profile_photos(self, monkeypatch, user):
+
         def test(_, *args, **kwargs):
             return args[0] == user.id
 
@@ -110,6 +115,7 @@ class TestUser(object):
         assert user.get_profile_photos()
 
     def test_instance_method_send_message(self, monkeypatch, user):
+
         def test(*args, **kwargs):
             return args[1] == user.id and args[2] == 'test'
 
@@ -117,6 +123,7 @@ class TestUser(object):
         assert user.send_message('test')
 
     def test_instance_method_send_photo(self, monkeypatch, user):
+
         def test(*args, **kwargs):
             return args[1] == user.id and args[2] == 'test_photo'
 
@@ -124,6 +131,7 @@ class TestUser(object):
         assert user.send_photo('test_photo')
 
     def test_instance_method_send_audio(self, monkeypatch, user):
+
         def test(*args, **kwargs):
             return args[1] == user.id and args[2] == 'test_audio'
 
@@ -131,6 +139,7 @@ class TestUser(object):
         assert user.send_audio('test_audio')
 
     def test_instance_method_send_document(self, monkeypatch, user):
+
         def test(*args, **kwargs):
             return args[1] == user.id and args[2] == 'test_document'
 
@@ -138,6 +147,7 @@ class TestUser(object):
         assert user.send_document('test_document')
 
     def test_instance_method_send_sticker(self, monkeypatch, user):
+
         def test(*args, **kwargs):
             return args[1] == user.id and args[2] == 'test_sticker'
 
@@ -145,6 +155,7 @@ class TestUser(object):
         assert user.send_sticker('test_sticker')
 
     def test_instance_method_send_video(self, monkeypatch, user):
+
         def test(*args, **kwargs):
             return args[1] == user.id and args[2] == 'test_video'
 
@@ -152,6 +163,7 @@ class TestUser(object):
         assert user.send_video('test_video')
 
     def test_instance_method_send_video_note(self, monkeypatch, user):
+
         def test(*args, **kwargs):
             return args[1] == user.id and args[2] == 'test_video_note'
 
@@ -159,6 +171,7 @@ class TestUser(object):
         assert user.send_video_note('test_video_note')
 
     def test_instance_method_send_voice(self, monkeypatch, user):
+
         def test(*args, **kwargs):
             return args[1] == user.id and args[2] == 'test_voice'
 
@@ -166,6 +179,7 @@ class TestUser(object):
         assert user.send_voice('test_voice')
 
     def test_instance_method_send_animation(self, monkeypatch, user):
+
         def test(*args, **kwargs):
             return args[1] == user.id and args[2] == 'test_animation'
 
@@ -176,16 +190,16 @@ class TestUser(object):
         expected = u'<a href="tg://user?id={}">{}</a>'
 
         assert user.mention_html() == expected.format(user.id, user.full_name)
-        assert user.mention_html('the<b>name\u2022') == expected.format(user.id,
-                                                                        'the&lt;b&gt;name\u2022')
+        assert user.mention_html('the<b>name\u2022') == expected.format(
+            user.id, 'the&lt;b&gt;name\u2022')
         assert user.mention_html(user.username) == expected.format(user.id, user.username)
 
     def test_mention_markdown(self, user):
         expected = u'[{}](tg://user?id={})'
 
         assert user.mention_markdown() == expected.format(user.full_name, user.id)
-        assert user.mention_markdown('the_name*\u2022') == expected.format('the\_name\*\u2022',
-                                                                           user.id)
+        assert user.mention_markdown('the_name*\u2022') == expected.format(
+            'the\_name\*\u2022', user.id)
         assert user.mention_markdown(user.username) == expected.format(user.username, user.id)
 
     def test_equality(self):

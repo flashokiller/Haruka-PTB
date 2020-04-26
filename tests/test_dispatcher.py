@@ -55,6 +55,7 @@ class TestDispatcher(object):
         self.count += 1
 
     def callback_set_count(self, count):
+
         def callback(bot, update):
             self.count = count
 
@@ -107,6 +108,7 @@ class TestDispatcher(object):
         assert self.count == 1
 
     def test_run_async_multiple(self, bot, dp, dp2):
+
         def get_dispatcher_name(q):
             q.put(current_thread().name)
 
@@ -137,9 +139,10 @@ class TestDispatcher(object):
             must_raise_runtime_error()
 
     def test_run_async_with_args(self, dp):
-        dp.add_handler(MessageHandler(Filters.all,
-                                      run_async(self.callback_if_not_update_queue),
-                                      pass_update_queue=True))
+        dp.add_handler(
+            MessageHandler(Filters.all,
+                           run_async(self.callback_if_not_update_queue),
+                           pass_update_queue=True))
 
         dp.update_queue.put(self.message_update)
         sleep(.1)

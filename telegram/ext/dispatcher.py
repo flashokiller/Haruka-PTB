@@ -48,6 +48,7 @@ def run_async(func):
     Note: Use this decorator to run handlers asynchronously.
 
     """
+
     @wraps(func)
     def async_func(*args, **kwargs):
         return Dispatcher.get_instance().run_async(func, *args, **kwargs)
@@ -384,5 +385,5 @@ class Dispatcher(object):
                 callback(self.bot, update, error)
 
         else:
-            self.logger.exception(
-                'No error handlers are registered, logging exception.', exc_info=error)
+            self.logger.exception('No error handlers are registered, logging exception.',
+                                  exc_info=error)

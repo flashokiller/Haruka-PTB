@@ -41,7 +41,12 @@ class Contact(TelegramObject):
 
     """
 
-    def __init__(self, phone_number, first_name, last_name=None, user_id=None, vcard=None,
+    def __init__(self,
+                 phone_number,
+                 first_name,
+                 last_name=None,
+                 user_id=None,
+                 vcard=None,
                  **kwargs):
         # Required
         self.phone_number = str(phone_number)

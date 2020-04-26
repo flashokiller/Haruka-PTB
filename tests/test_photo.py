@@ -76,8 +76,11 @@ class TestPhoto(object):
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_send_photo_all_args(self, bot, chat_id, photo_file, thumb, photo):
-        message = bot.send_photo(chat_id, photo_file, caption=self.caption,
-                                 disable_notification=False, parse_mode='Markdown')
+        message = bot.send_photo(chat_id,
+                                 photo_file,
+                                 caption=self.caption,
+                                 disable_notification=False,
+                                 parse_mode='Markdown')
 
         assert isinstance(message.photo[0], PhotoSize)
         assert isinstance(message.photo[0].file_id, str)
@@ -98,8 +101,7 @@ class TestPhoto(object):
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_send_photo_parse_mode_markdown(self, bot, chat_id, photo_file, thumb, photo):
-        message = bot.send_photo(chat_id, photo_file, caption=self.caption,
-                                 parse_mode='Markdown')
+        message = bot.send_photo(chat_id, photo_file, caption=self.caption, parse_mode='Markdown')
         assert isinstance(message.photo[0], PhotoSize)
         assert isinstance(message.photo[0].file_id, str)
         assert message.photo[0].file_id != ''
@@ -120,8 +122,7 @@ class TestPhoto(object):
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_send_photo_parse_mode_html(self, bot, chat_id, photo_file, thumb, photo):
-        message = bot.send_photo(chat_id, photo_file, caption=self.caption,
-                                 parse_mode='HTML')
+        message = bot.send_photo(chat_id, photo_file, caption=self.caption, parse_mode='HTML')
         assert isinstance(message.photo[0], PhotoSize)
         assert isinstance(message.photo[0].file_id, str)
         assert message.photo[0].file_id != ''
@@ -223,6 +224,7 @@ class TestPhoto(object):
         assert photo.file_size == 33372
 
     def test_send_with_photosize(self, monkeypatch, bot, chat_id, photo):
+
         def test(_, url, data, **kwargs):
             return data['photo'] == photo.file_id
 
@@ -291,6 +293,7 @@ class TestPhoto(object):
             bot.send_photo(chat_id=chat_id)
 
     def test_get_file_instance_method(self, monkeypatch, photo):
+
         def test(*args, **kwargs):
             return args[1] == photo.file_id
 

@@ -71,8 +71,8 @@ class TestInlineQueryResultLocation(object):
         assert isinstance(inline_query_result_location_dict, dict)
         assert inline_query_result_location_dict['id'] == inline_query_result_location.id
         assert inline_query_result_location_dict['type'] == inline_query_result_location.type
-        assert (inline_query_result_location_dict['latitude'] ==
-                inline_query_result_location.latitude)
+        assert (
+            inline_query_result_location_dict['latitude'] == inline_query_result_location.latitude)
         assert (inline_query_result_location_dict['longitude'] ==
                 inline_query_result_location.longitude)
         assert inline_query_result_location_dict['title'] == inline_query_result_location.title

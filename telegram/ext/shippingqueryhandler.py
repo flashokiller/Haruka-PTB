@@ -67,12 +67,11 @@ class ShippingQueryHandler(Handler):
                  pass_job_queue=False,
                  pass_user_data=False,
                  pass_chat_data=False):
-        super(ShippingQueryHandler, self).__init__(
-            callback,
-            pass_update_queue=pass_update_queue,
-            pass_job_queue=pass_job_queue,
-            pass_user_data=pass_user_data,
-            pass_chat_data=pass_chat_data)
+        super(ShippingQueryHandler, self).__init__(callback,
+                                                   pass_update_queue=pass_update_queue,
+                                                   pass_job_queue=pass_job_queue,
+                                                   pass_user_data=pass_user_data,
+                                                   pass_chat_data=pass_chat_data)
 
     def check_update(self, update):
         """Determines whether an update should be passed to this handlers :attr:`callback`.

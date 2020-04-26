@@ -46,7 +46,7 @@ class TestInputTextMessageContent(object):
         assert isinstance(input_text_message_content_dict, dict)
         assert (input_text_message_content_dict['message_text'] ==
                 input_text_message_content.message_text)
-        assert (input_text_message_content_dict['parse_mode'] ==
-                input_text_message_content.parse_mode)
+        assert (
+            input_text_message_content_dict['parse_mode'] == input_text_message_content.parse_mode)
         assert (input_text_message_content_dict['disable_web_page_preview'] ==
                 input_text_message_content.disable_web_page_preview)

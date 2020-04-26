@@ -291,11 +291,14 @@ class TestInputMediaDocument(object):
 
 @pytest.fixture(scope='function')  # noqa: F811
 def media_group(photo, thumb):
-    return [InputMediaPhoto(photo, caption='photo `1`', parse_mode='Markdown'),
-            InputMediaPhoto(thumb, caption='<b>photo</b> 2', parse_mode='HTML')]
+    return [
+        InputMediaPhoto(photo, caption='photo `1`', parse_mode='Markdown'),
+        InputMediaPhoto(thumb, caption='<b>photo</b> 2', parse_mode='HTML')
+    ]
 
 
 class TestSendMediaGroup(object):
+
     @flaky(3, 1)
     @pytest.mark.timeout(10)
     def test_send_media_group_photo(self, bot, chat_id, media_group):
@@ -309,19 +312,25 @@ class TestSendMediaGroup(object):
     @pytest.mark.timeout(10)
     def test_send_media_group_all_args(self, bot, chat_id, media_group):
         m1 = bot.send_message(chat_id, text="test")
-        messages = bot.send_media_group(chat_id, media_group, disable_notification=True,
+        messages = bot.send_media_group(chat_id,
+                                        media_group,
+                                        disable_notification=True,
                                         reply_to_message_id=m1.message_id)
         assert isinstance(messages, list)
         assert len(messages) == 2
         assert all([isinstance(mes, Message) for mes in messages])
         assert all([mes.media_group_id == messages[0].media_group_id for mes in messages])
 
-    def test_send_media_group_new_files(self, bot, chat_id, video_file, photo_file,  # noqa: F811
-                                        animation_file):  # noqa: F811
-        messages = bot.send_media_group(chat_id, [
-            InputMediaVideo(video_file),
-            InputMediaPhoto(photo_file)
-        ])
+    def test_send_media_group_new_files(
+        self,
+        bot,
+        chat_id,
+        video_file,
+        photo_file,  # noqa: F811
+        animation_file):  # noqa: F811
+        messages = bot.send_media_group(
+            chat_id,
+            [InputMediaVideo(video_file), InputMediaPhoto(photo_file)])
         assert isinstance(messages, list)
         assert len(messages) == 2
         assert all([isinstance(mes, Message) for mes in messages])
@@ -342,6 +351,7 @@ class TestSendMediaGroup(object):
         messages = bot.send_media_group(chat_id, media_group)
         cid = messages[-1].chat.id
         mid = messages[-1].message_id
-        new_message = bot.edit_message_media(chat_id=cid, message_id=mid,
+        new_message = bot.edit_message_media(chat_id=cid,
+                                             message_id=mid,
                                              media=InputMediaPhoto(thumb_file))
         assert isinstance(new_message, Message)
